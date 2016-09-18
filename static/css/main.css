@@ -1,26 +1,57 @@
 body {
 	background: white;
+	font-family: 'Ubuntu', sans-serif;
 }
 
 hr {
 	width: 95%;
-	border-top: 1px solid #5d5d5d;
+	border-top: 1px solid #b9b9b9;
 	margin: 10px auto;
+}
+
+h4, h5 {
+	margin-left: 0px;
+	text-decoration: underline;
+	color: #5d5d5d;
+}
+
+p, .chevron-bullet li {
+	color: #6c6c6c;
+}
+
+br {
+	display: block;
 }
 
 .navbar-default {
 	background-color: #b9b9b9;
+	background: -webkit-linear-gradient(#b9b9b9, white, white, white, #b9b9b9);
+	/* For Opera 11.1 to 12.0 */
+	background: -o-linear-gradient(#b9b9b9, white, white, white, #b9b9b9);
+	/* For Fx 3.6 to 15 */
+	background: -moz-linear-gradient(#b9b9b9, white, white, white, #b9b9b9);
+	/* Standard syntax */
+	background: linear-gradient(to right, #b9b9b9, white, white, white, #b9b9b9);
 	margin-bottom: 10px;
-	border-radius: 1px;
+	border-color: white;
 }
 
 .navbar > .container-fluid .navbar-brand {
 	margin-left: 0px;
 }
 
-.navbar-default .navbar-nav li a, .navbar-default .navbar-brand {
+.navbar-default .navbar-brand {
 	color: #4b4b4b;
-	font-size: 24px;
+	font-size: 34px;
+}
+
+.navbar-default .navbar-nav li a {
+	color: #4b4b4b;
+	font-size: 18px;
+}
+
+.navbar-right {
+	margin-right: 0px;
 }
 
 .navbar-default .navbar-nav:focus li a, .navbar-default .navbar-brand:hover {
@@ -33,15 +64,32 @@ hr {
 	border-color: #b9b9b9;
 	border-width: 4px;
 	border-radius: 12px;
-	transition: inherit;
-	o transition: inherit;
-	webkit transition: inherit;
+	transition: none;
+	o transition: none;
+	webkit transition: none;
 }
 
-#picture {
+.row .left-side {
 	padding-left: 45px;
 }
 
+.chevron-bullet {
+	padding-left: 0px;
+}
+
+.chevron-bullet li {
+	display:  block;
+}
+
+.chevron-bullet span {
+	padding-right: 5px;
+	color: #5d5d5d;
+}
+
 .col-main {
-	border-left: 1px solid #5d5d5d;
+	border-left: 2px solid #b9b9b9;
+}
+
+.col-main p {
+	margin-bottom: 0px;
 }

@@ -16,6 +16,8 @@
 		<link rel="stylesheet" href="static/css/normalize.css">
 		<!-- main.css -->
 		<link rel="stylesheet" href="static/css/main.css">
+		<!-- Font -->
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
 	</head>
 
 	<body>
@@ -27,26 +29,89 @@
 						<a class="navbar-brand" href="/">andrew zick<span class="sr-only">(current)</span></a>
 				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				      <ul class="nav navbar-nav navbar-right">
-				        <li><a href="/resume.pdf" target="_blank">resume</a></li>
-				        <li><a href="/resources/">links & stuff</a></li>
+				        <li><a href="/resume.pdf" target="_blank">résumé</a></li>
 				      </ul>
 				    </div><!-- /.navbar-collapse -->
 				  </div><!-- /.container-fluid -->
 				</nav>
 			</header><!-- /header -->
-			<hr>
+			<hr></hr>
 			<div class="row">
-				<div id="picture" class="col-lg-2">
+				<div class="col-lg-2 left-side">
 					<img class="img-thumbnail" src="static/images/me.jpg" alt="A picture of the author">
 				</div>
-				<div class="col-lg-5 about-me">
-					<h4>About Me</h4>
-					<p>I'm currently a senior at the University of Michigan on track to graduate in May 2017 with a Bachelor's Degree in Computer Science Engineering and a minor in Women's Studies.</p>
+				<div class="col-lg-6 col-main">
+					<h4><b>About Me</b></h4>
+					<p>I am a senior at the University of Michigan expected to graduate in May 2017 with a Bachelor's Degree in <a href="https://www.cse.umich.edu/" target="_blank">Computer Science in Engineering</a> and a <a href="https://lsa.umich.edu/women/undergraduates/minors/gender--race--and-nation-minor.html" target="_blank">minor in Women's Studies</a>. I am interested in computer security and work as a teaching assistant for <a href="https://www.eecs.umich.edu/courses/eecs388/" title="Link to EECS 388 course website">EECS 388: Introduction to Computer Security</a>. I also have experience with iOS development: one summer I built a <a href="https://itunes.apple.com/us/app/radioactive-decay-calculator/id846834886?mt=8" title="Link to the itunes page for the app"  target="_blank">radioactive decay calculator</a> for <a href="https://www.perkinelmer.com/" target="_blank">PerkinElmer</a> and this past summer I interned at a biotech company named <a href="http://orig3n.com/" title="ORIG3N's company website" target="_blank">ORIG3N</a> where I worked on the back-end/internal tools for <a href="https://itunes.apple.com/us/app/lifeprofile/id1125309204?mt=8" title="ORIG3N's iOS app" target="_blank">their new app</a> which delivers genetic test results directly to customers.</p>
 				</div>
-			</div><!--
-			<footer class="footer">
-				&copy; 2016 Andrew Zick. -->
-			</footer>
+				<div class="col-lg-4 col-main">
+					<h4><b>TL;DR</b></h4>
+					<div class="row">
+						<div class="col-xs-3 text-right">
+							<p>Born in:</p>
+						</div>
+						<div class="col-xs-9 text-left">
+							<p>Boston, Massachusetts</p>
+						</div>
+						<div class="col-xs-3 text-right">
+							<p>Living in:</p>
+						</div>
+						<div class="col-xs-9 text-left">
+							<p>Ann Arbor, Michigan</p>
+						</div>
+						<div class="col-xs-3 text-right">
+							<p>Email:</p>
+						</div>
+						<div class="col-xs-9 text-left">
+							<a href="mailto:aezick@umich.edu">aezick@umich.edu</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-right">
+							<p>Github:</p>
+						</div>
+						<div class="col-xs-9 text-left">
+							<a href="https://github.com/aezick" title="A link to my Github account" target="_blank">aezick</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-right">
+							<p>LinkedIn:</p>
+						</div>
+						<div class="col-xs-9 text-left">
+							<a href="https://www.linkedin.com/in/andrew-zick-38b62561" title="A Link to my LinkedIn account">Andrew Zick</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr></hr>
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8 left-side">
+					<h4><b>Assorted Links</b></h4>
+					<p>Each time in my life that I've found a new interest (computer security, iOS, even programming way back when) the biggest struggle was trying to find good resources to get myself started. So I figured if I'm going to have a website, it needs a section for anything useful I've found in my travels. This is that section. I plan to keep filling up this section as life goes on.</p>
+					<br>
+					<h5>Computer Security</h5>
+					<p>Twitter is a great place for peeking at what's on the mind of the security community, not to mention most of them are pretty nice. <a href"https://twitter.com/SwiftOnSecurity" target="_blank">SwiftOnSecurity</a> mixes in jokes with topical security commentary and often conversations they start will have lots of important security people from around the web chiming in.</p>
+					<br>
+					<p>If you're eager to jump into security but don't feel adequately prepared, check out <a href="http://thesecuritysetup.com/" title="The Security Setup website" target="_blank">The Security Setup</a>. It's dedicated to interviewing people from the security community about what hardware/software they use and it's chock full of useful information, from easy changes like installing an adblocker (I use <a href="https://www.ublock.org/" title="uBlock website" target="_blank">uBlock</a>) and enforcing <a href="https://www.eff.org/https-everywhere" title="HTTPS Everywhere website" target="_blank">HTTPS Everywhere</a> to larger topics like VM management (<a href="http://docs.kali.org/introduction/what-is-kali-linux" title="What is Kali Linux?" target="_blank">Kali is great</a>) and handling automated backups.</p>
+					<br>
+					<p>Now that you're ready, the best way to dive into the field is to start completing CTFs, or Capture the Flags, special computer security events held to test how you apply security skills to computer problems. <a href="https://ctftime.org/ctf-wtf/" title="CTFTime website" target="_blank">CTF Time</a> does a better job explaining what kinds of challenges you'll see in CTFs and hosts a calendar with future CTFs that you can participate in, but here's  a list of still hosted CTFs in no particular order:</p>
+					<ul class="chevron-bullet">
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://trailofbits.github.io/ctf/index.html" target="_blank">Trail of Bits CTF Field Guide</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://overthewire.org/wargames/" target="_blank">OverTheWire Wargames</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://jacobedelman.gitbooks.io/hsctf-3-practice-problems/content/" target="_blank">High School CTF 3 Practice Problems</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://www.hackthissite.org/" target="_blank">HackThisSite</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://picoctf.com/problems" target="_blank">Pico CTF 2014</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://www.praetorian.com/challenges/index.html" target="_blank">Praetorian's Tech Puzzles</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="http://fuzyll.com/2016/the-defcon-ctf-vm/" target="_blank">The DEFCON CTF VM (old CTFs from DEFCON)</a></li>
+					</ul>
+					<br>
+					<p>I also have a particular interest in password security. I use <a href="https://hashcat.net/hashcat/" title="Hashcat website" target="_blank">Hashcat</a> and a modified version of the <a href="https://crackstation.net/" title="Crackstation website" target="_blank">CrackStation</a> wordlist for dictionary attacks on my own passwords for fun because if my <i>CPU</i> can crack it then I shouldn't be using it for a password! Also you should sign up for <a href="https://haveibeenpwned.com/" title="HaveIBeenPwned website" target="_blank">Have I Been Pwned?</a> if you haven't already. It notifies you any time your email address appears in a company's database leak so you can go change the password right away.</p>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<hr>
 		</div>
 	</body>
 </html>
