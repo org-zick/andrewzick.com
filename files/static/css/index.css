@@ -1,0 +1,60 @@
+.row h4, .row h5 {
+	margin-left: 0px;
+	text-decoration: underline;
+	color: #5d5d5d;
+}
+
+.img-thumbnail {
+	height: 10em;
+	padding: 0px;
+	border-color: #b9b9b9;
+	border-width: 4px;
+	border-radius: 12px;
+	transition: none;
+	o transition: none;
+	webkit transition: none;
+}
+
+.row .left-side {
+	padding-left: 65px;
+}
+
+.col-main p {
+	margin-bottom: 0px;
+	color: black;
+}
+
+p, .chevron-bullet li {
+	color: #6c6c6c;
+}
+
+.chevron-bullet {
+	padding-left: 0px;
+}
+
+.chevron-bullet li {
+	display:  block;
+}
+
+.chevron-bullet span {
+	padding-right: 5px;
+	color: #5d5d5d;
+}
+
+.list-about-me {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #6c6c6c;
+}
+
+.list-about-me > li {
+    margin-left: 15px;  
+}
+
+.list-about-me > li::before {
+    content: "- ";
+    margin-left: -15px;
+}

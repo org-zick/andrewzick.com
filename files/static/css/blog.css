@@ -1,0 +1,15 @@
+p, .chevron-bullet li {
+	color: #6c6c6c;
+}
+
+br {
+	display: block;
+}
+
+.blog-title h1 {
+	margin: 0.1em;
+}
+
+.blog-title h5 {
+	margin-left: 0.5em;
+}
