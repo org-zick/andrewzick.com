@@ -1,0 +1,20 @@
+andrewzick.com {
+    root /home/ubuntu/website
+    gzip
+    tls andrewzick@gmail.com
+	log /home/ubuntu/website/access.log {
+		rotate_size 50  # Rotate after 50 MB
+		rotate_age  90  # Keep rotated files for 90 days
+		rotate_keep 20  # Keep at most 20 log files
+		rotate_compress # Compress rotated log files in gzip format
+	}
+	errors /home/ubuntu/website/errors.log {
+		* index.html
+	}
+}
+
+*.andrewzick.com:80 {
+    proxy / localhost:9001 {
+        transparent
+    }
+}
