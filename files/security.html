@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Andrew Zick</title>
+
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<meta name="description" content="Personal Website for Andrew Zick">
+		<meta name="author" content="Andrew Zick">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="static/css/bootstrap.min.css" >
+		<!-- Normalize -->
+		<link rel="stylesheet" href="static/css/normalize.css">
+		<!-- main.css -->
+		<link rel="stylesheet" href="static/css/main.css">
+		<!-- blog.css -->
+		<link rel="stylesheet" href="static/css/blog.css">
+		<!-- Font -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed">
+	</head>
+
+	<body>
+		<div class="container">
+			<header class="header">
+				<nav class="navbar navbar-default navbar-static-top">
+				  <div class="container-fluid">
+				    <div class="navbar-header">
+							<a class="navbar-brand" href="/">andrew zick<span class="sr-only">(current)</span></a>				    	
+				    </div>
+			      <ul class="nav navbar-nav navbar-right">
+			      	<li><a href="/security.html">posts</a></li>
+			        <li><a href="/resume.pdf" target="_blank">resume</a></li>
+			      </ul>
+				  </div><!-- /.container-fluid -->
+				</nav> 
+			</header><!-- /header -->
+			<hr>
+			<div class="row">
+				<div class="col-lg-3 left-side">
+					<ul>
+						<li>
+							<a href="/security.html"><h4>Computer Security</h4></a>
+							<p>Last updated: Mar 7th 2019</p>
+						</li>
+						<br>
+						<li>
+							<a href="/cbb.html"><h4>College Basketball</h4></a>
+							<p>Last updated: Mar 7th 2019</p>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-7 col-main blog-title">
+					<h1>Computer Security</h1>
+					<br>
+					<p>Twitter is a great place for peeking at what's on the mind of the security community, not to mention most of them are pretty nice. <a href="https://twitter.com/SwiftOnSecurity" target="_blank">SwiftOnSecurity</a> mixes in jokes with topical security commentary and often conversations they start will have lots of important security people from around the web chiming in.</p>
+					<br>
+					<p>If you're eager to jump into security but don't feel adequately prepared, check out <a href="http://thesecuritysetup.com/" title="The Security Setup website" target="_blank">The Security Setup</a>. It's dedicated to interviewing people from the security community about what hardware/software they use and it's chock full of useful information, from easy changes like installing an adblocker (I use <a href="https://www.ublock.org/" title="uBlock website" target="_blank">uBlock</a>) and enforcing <a href="https://www.eff.org/https-everywhere" title="HTTPS Everywhere website" target="_blank">HTTPS Everywhere</a>.
+					<br>
+					<br>
+					<p>Now that you're ready, the best way to dive into the field is to start completing CTFs, or Capture the Flags, special computer security events held to test how you apply security skills to computer problems. <a href="https://ctftime.org/ctf-wtf/" title="CTFTime website" target="_blank">CTF Time</a> does a better job explaining what kinds of challenges you'll see in CTFs and hosts a calendar with future CTFs that you can participate in. Here's  a list of CTFs in no particular order:</p>
+					<ul class="chevron-bullet">
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://trailofbits.github.io/ctf/index.html" target="_blank">Trail of Bits CTF Field Guide</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://overthewire.org/wargames/" target="_blank">OverTheWire Wargames</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://jacobedelman.gitbooks.io/hsctf-3-practice-problems/content/" target="_blank">High School CTF 3 Practice Problems</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://www.hackthissite.org/" target="_blank">HackThisSite</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://picoctf.com/problems" target="_blank">Pico CTF 2014</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://www.praetorian.com/challenges/index.html" target="_blank">Praetorian's Tech Puzzles</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="http://fuzyll.com/2016/the-defcon-ctf-vm/" target="_blank">The DEFCON CTF VM (old CTFs from DEFCON)</a></li>
+					</ul>
+					<br>
+					<p>I also have a particular interest in password security. I use <a href="https://hashcat.net/hashcat/" title="Hashcat website" target="_blank">Hashcat</a> and a modified version of the <a href="https://crackstation.net/" title="Crackstation website" target="_blank">CrackStation</a> wordlist for dictionary attacks on my own passwords for fun because if my <i>CPU</i> can crack it then I shouldn't be using it for a password! Also you should sign up for <a href="https://haveibeenpwned.com/" title="HaveIBeenPwned website" target="_blank">Have I Been Pwned?</a> if you haven't already. It notifies you any time your email address appears in a company's database leak so you can go change the password right away. Here's a bunch of great resources on passwords:</p>
+					<ul class="chevron-bullet">
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://cups.cs.cmu.edu/passwords.html"  target="_blank">CyLab Usable Privacy and Security Laboratory (academic research from Carnegie Mellon)</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://www.benthamsgaze.org/2018/08/17/stronger-password-longer-lifetime-studying-ucls-password-policy/" target="_blank">Password Incentives Based on Longer Time Before Expiration</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://www.youtube.com/watch?v=zUM7i8fsf0g" target="_blank">Conference Talk about Password Complexity</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://pthree.org/2018/04/19/use-a-good-password-generator/" target="_blank">In-depth Comparison of Password Generators</a></li>
+						<li><span class="glyphicon glyphicon-chevron-right"></span><a href="https://passwordsecurity.info/" target="_blank">Test Your (Bad) Passwords Here!</a></li>
+					</ul>
+					<br>
+					<br>
+				</div>
+				<div class="col-lg-2"></div>				
+			</div>
+			<hr>
+		</div>
+	</body>
+</html>
