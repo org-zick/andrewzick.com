@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>pokemans</title>
+
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<meta name="description" content="Personal Website for pokemans">
+		<meta name="author" content="Zicaraj">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="static/css/bootstrap.min.css" >
+		<!-- Normalize -->
+		<link rel="stylesheet" href="static/css/normalize.css">
+		<!-- main.css -->
+		<link rel="stylesheet" href="static/css/main.css">
+		<!-- blog.css -->
+		<link rel="stylesheet" href="static/css/blog.css">
+		<!-- Font -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed">
+	</head>
+
+	<body>
+		<div class="container">
+			<header class="header">
+				<nav class="navbar navbar-default navbar-static-top">
+				  <div class="container-fluid">
+				    <div class="navbar-header">
+							<a class="navbar-brand" href="/">zicaraj<span class="sr-only">(current)</span></a>
+				    </div>
+			      <ul class="nav navbar-nav navbar-right">
+			        <li><a href="https://drive.google.com/drive/u/0/folders/1lLvl83W52izsuM3Mq8sYbbV3K3aDHX_7" target="_blank">google drive</a></li>
+			        <!-- probably a better way to link this but oh well -->
+			      </ul>
+				  </div><!-- /.container-fluid -->
+				</nav>
+			</header><!-- /header -->
+			<hr>
+			<div class="row">
+				<div class="col-lg-3 left-side">
+					<img src="/static/img/little_guy.png">
+				</div>
+				<div class="col-lg-7 col-main blog-title">
+					<h1>pokemans</h1>
+					<br>
+					<h4 id="date"></h4>
+					<script type="text/javascript">document.getElementById("date").innerHTML =
+						"Today is " + new Date().toDateString() + "."</script>
+					<br>
+					<h5 id="turn-based-combat"></h5>
+					<script type="text/javascript">
+						d = new Date();
+						if ((d.getDate() + d.getMonth() + d.getFullYear()) % 2 == 0) {
+							document.getElementById("turn-based-combat").innerHTML = "It is Harsha's turn to play today."
+						} else {
+							document.getElementById("turn-based-combat").innerHTML = "It is Andrew's turn to play today."
+						}
+					</script>
+					<br>
+					<!-- credit https://www.asciiart.eu/video-games/pokemon -->
+					<pre class="pre-LG">
+                   _,........_
+               _.-'    ___    `-._
+            ,-'      ,'   \       `.
+ _,...    ,'      ,-'     |  ,""":`._.
+/     `--+.   _,.'      _.',',|"|  ` \`
+\_         `"'     _,-"'  | / `-'   l L\
+  `"---.._      ,-"       | l       | | |
+      /   `.   |          ' `.     ,' ; |
+     j     |   |           `._`"""' ,'  |__
+     |      `--'____          `----'    .' `.
+     |    _,-"""    `-.                 |    \
+     l   /             `.               F     l
+      `./     __..._     `.           ,'      |
+        |  ,-"      `.    | ._     _.'        |
+        . j           \   j   /`"""      __   |          ,"`.
+         `|           | _,.__ |        ,'  `. |          |   |
+          `-._       /-'     `L       .     , '          |   |
+              F-...-'          `      |    , /           |   |
+              |            ,----.     `...' /            |   |
+              .--.        j      l        ,'             |   j
+             j    L       |      |'-...--&lt;               .  /
+             `     |       . __,,_    ..  |               \/
+              `-..'.._  __,-'     \  |  |/`._           ,'`
+                  |   ""       .--`. `--,  ,-`..____..,'   |
+                   L          /     \ _.  |   | \  .-.\    j
+                  .'._        l     .\    `---' |  |  || ,'
+                   .  `..____,-.._.'  `._       |  `--;"I'
+                    `--"' `.            ,`-..._/__,.-1,'
+                            `-.__  __,.'     ,' ,' _-'
+                                 `'...___..`'--^--' mh
+					</pre>
+					<br>
+					<br>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<hr>
+		</div>
+	</body>
+</html>
