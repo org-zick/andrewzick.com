@@ -1,0 +1,9 @@
+.counter-text {
+	text-decoration: underline;
+	text-align: center;
+}
+
+.counter-num {
+	font-size: 20px;
+	text-align: center;
+}
