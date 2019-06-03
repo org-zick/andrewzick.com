@@ -7,3 +7,10 @@
 	font-size: 20px;
 	text-align: center;
 }
+
+#futurama-days-since {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+  	width: 80%;
+}

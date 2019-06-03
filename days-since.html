@@ -41,7 +41,7 @@
 			<hr>
 			<div class="row">
 				<div class="col-lg-3 left-side">
-					<img src="/static/img/futurama_days_since.gif">
+					<img id="futurama-days-since" src="/static/img/futurama_days_since.gif">
 				</div>
 				<div class="col-lg-7 col-main blog-title">
 					<script type="text/javascript">
@@ -59,6 +59,8 @@
 					</script>
 					<h1>Days since...</h1>
 					<hr>
+
+					<!-- the original counter -->
 					<h4 class="counter-text">this page was created</h4>
 					<h4 id="counterDateCreated" class="counter-num"></h4>
 					<script type="text/javascript">
@@ -66,6 +68,8 @@
 						document.getElementById("counterDateCreated").innerHTML = daysBetween(dateCreated, new Date());
 					</script>
 					<hr>
+
+					<!-- new counter counter -->
 					<h4 class="counter-text">a new counter was added to this page</h4>
 					<h4 id="counterNewCounterAdded" class="counter-num"></h4>
 					<script type="text/javascript">
@@ -73,17 +77,52 @@
 						document.getElementById("counterNewCounterAdded").innerHTML = daysBetween(dateCreated, new Date());
 					</script>
 					<hr>
+
+					<!-- first visit counter -->
 					<h4 class="counter-text">you first visited this page</h4>
 					<h4 id="counterLastVisited" class="counter-num"></h4>
 					<script type="text/javascript">
-						if (localStorage.lastVisited) {
-							lastVisited = localStorage.lastVisited;
+						if (localStorage.firstVisited) {
+							firstVisited = localStorage.firstVisited;
 						} else {
-							localStorage.lastVisited = new Date().toString();
-							lastVisited = localStorage.lastVisited;
+							localStorage.firstVisited = new Date().toString();
+							firstVisited = localStorage.firstVisited;
 						}
-						document.getElementById("counterLastVisited").innerHTML = daysBetween(lastVisited, new Date());
-					</script>		
+						document.getElementById("counterLastVisited").innerHTML = daysBetween(firstVisited, new Date());
+					</script>
+					<hr>
+
+					<!-- prime sum counter -->
+					<h4 class="counter-text">the sum of the above counters was prime</h4>
+					<h4 id="counterPrimeSum" class="counter-num"></h4>
+					<script type="text/javascript">
+						// from here https://stackoverflow.com/a/40200710/2521402
+						const isPrime = num => {
+							for(let i = 2, s = Math.sqrt(num); i <= s; i++)
+								if(num % i === 0) return false; 
+							return num > 1;
+						}
+
+						isPrimeSum = isPrime(
+							parseInt(document.getElementById("counterDateCreated").innerHTML) +
+							parseInt(document.getElementById("counterNewCounterAdded").innerHTML) +
+							parseInt(document.getElementById("counterLastVisited").innerHTML)
+						);
+
+						// if the sum of the counters is prime, reset this counter
+						if (localStorage.lastPrimeSum) {
+							if (isPrimeSum) {
+								localStorage.lastPrimeSum = new Date().toString();
+							}
+							lastPrimeSum = localStorage.lastPrimeSum;
+						} else {
+							localStorage.lastPrimeSum = "n/a";
+							lastPrimeSum = localStorage.lastPrimeSum;
+						}
+
+						document.getElementById("counterPrimeSum").innerHTML = daysBetween(lastPrimeSum, new Date());
+					</script>
+
 				</div>
 				<div class="col-lg-2"></div>
 			</div>
