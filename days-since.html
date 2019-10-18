@@ -20,6 +20,9 @@
 		<link rel="stylesheet" href="static/css/days-since.css">
 		<!-- Font -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed">
+
+		<!-- Full Moon javascript -->
+		<script type="text/javascript" src="static/js/helper.js"></script>
 	</head>
 
 	<body>
@@ -44,19 +47,6 @@
 					<img id="futurama-days-since" src="/static/img/futurama_days_since.gif">
 				</div>
 				<div class="col-lg-7 col-main blog-title">
-					<script type="text/javascript">
-						// from here https://stackoverflow.com/a/11252167
-						function treatAsUTC(date) {
-							var result = new Date(date);
-							result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-							return result;
-						}
-
-						function daysBetween(startDate, endDate) {
-							var millisecondsPerDay = 24 * 60 * 60 * 1000;
-							return Math.floor((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay);
-						}
-					</script>
 					<h1>Days since...</h1>
 					<hr>
 
@@ -73,7 +63,7 @@
 					<h4 class="counter-text">a new counter was added to this page</h4>
 					<h4 id="counterNewCounterAdded" class="counter-num"></h4>
 					<script type="text/javascript">
-						dateCreated = new Date(2019, 5, 2);	// June 2nd, 2019
+						dateCreated = new Date(2019, 9, 17);	// October 17th, 2019; added the full moon counter
 						document.getElementById("counterNewCounterAdded").innerHTML = daysBetween(dateCreated, new Date());
 					</script>
 					<hr>
@@ -121,6 +111,22 @@
 						}
 
 						document.getElementById("counterPrimeSum").innerHTML = daysBetween(lastPrimeSum, new Date());
+					</script>
+					<hr>
+
+					<!-- full moon counter -->
+					<h4 class="counter-text">a full moon</h4>
+					<h4 id="counterFullMoon" class="counter-num"></h4>
+					<script type="text/javascript">
+						const moonCycle = 29.530588853;
+				    referenceDate = new Date(1999, 8, 25); // September 25th, 1919; a known full moon
+				    today = new Date();
+				    julianDaysBetween = (today.getFullYear() - referenceDate.getFullYear()) * 365.25
+				    										+ (getDayOfTheYear(today) - getDayOfTheYear(referenceDate));
+
+				    daysSinceFullMoon = Math.floor(julianDaysBetween % moonCycle);
+
+						document.getElementById("counterFullMoon").innerHTML = "~" + daysSinceFullMoon;
 					</script>
 
 				</div>
