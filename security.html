@@ -1,42 +1,17 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<title>Andrew Zick</title>
+		<!-- head -->
+		{{.Include "head.html"}}
 
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<meta name="description" content="Personal Website for Andrew Zick">
-		<meta name="author" content="Andrew Zick">
-
-		<!-- Bootstrap -->
-		<link rel="stylesheet" href="static/css/bootstrap.min.css" >
-		<!-- Normalize -->
-		<link rel="stylesheet" href="static/css/normalize.css">
-		<!-- main.css -->
-		<link rel="stylesheet" href="static/css/main.css">
 		<!-- blog.css -->
 		<link rel="stylesheet" href="static/css/blog.css">
-		<!-- Font -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed">
 	</head>
 
 	<body>
 		<div class="container">
-			<header class="header">
-				<nav class="navbar navbar-default navbar-static-top">
-				  <div class="container-fluid">
-				    <div class="navbar-header">
-							<a class="navbar-brand" href="/">andrew zick<span class="sr-only">(current)</span></a>				    	
-				    </div>
-			      <ul class="nav navbar-nav navbar-right">
-			      	<li><a href="/security.html">links</a></li>
-			        <li><a href="/static/resume.pdf" target="_blank">resume</a></li>
-			      </ul>
-				  </div><!-- /.container-fluid -->
-				</nav> 
-			</header><!-- /header -->
+			<!-- header -->
+			{{.Include "header.html"}}
 			<hr>
 			<div class="row">
 				<div class="col-lg-3 left-side">

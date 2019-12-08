@@ -1,6 +1,7 @@
 andrewzick.com {
     root /home/ubuntu/website
     gzip
+    templates
     tls andrewzick@gmail.com
 	log /home/ubuntu/website/access.log {
 		rotate_size 50  # Rotate after 50 MB

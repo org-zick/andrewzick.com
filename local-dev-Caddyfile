@@ -1,0 +1,5 @@
+localhost:8000 {
+	gzip
+	root /Users/andrewzick/Desktop/websites/personal-website
+	templates
+}
