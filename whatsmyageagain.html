@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<!-- to overwrite the Caddy templating, must set values before it is loaded -->
+		<title>old as dirt</title>
+
+		<!-- head -->
+		{{.Include "head.html"}}
+
+		<!-- blog.css -->
+		<link rel="stylesheet" href="static/css/blog.css">
+
+		<!-- Date math javascript -->
+		<script type="text/javascript" src="static/js/helper.js"></script>
+	</head>
+
+	<body>
+		<div class="container">
+			<!-- header -->
+			{{.Include "header.html"}}
+			<script type="text/javascript">
+				document.getElementById("navbar-brand").innerHTML = "turn back time";
+				document.getElementById("navbar-dropdown").innerHTML = "take me back to safety";
+				document.getElementById("navbar-link").href = "https://www.youtube.com/watch?v=K7l5ZeVVoCA";
+				document.getElementById("navbar-link").innerHTML = "I mean, what else did you expect";
+			</script>
+			<hr>
+			<div class="row">
+				<div class="col-lg-3 left-side">
+					<h1 style="text-align: center">I am:</h1>
+				</div>
+				<div class="col-lg-7 col-main blog-title">
+					<h4 id="date"></h4>
+					<script type="text/javascript">
+						// modification of this answer https://stackoverflow.com/a/7091965/2521402
+						var today = new Date();
+						var bday = new Date(1994, 10, 30);
+						var yearsOld = today.getFullYear() - bday.getFullYear();
+						var monthsOld = today.getMonth() - bday.getMonth();
+						var daysOld = today.getDate() - bday.getDate();
+						if (monthsOld < 0 || (monthsOld === 0 && today.getDate() < bday.getDate())) {
+							--yearsOld;
+						}
+						if (daysOld < 0 || (daysOld === 0 && today.getDate() < bday.getDate())) {
+							--monthsOld;
+							if (daysOld < 0) {
+								daysOld = getDayOfTheYear(today) - getDayOfTheYear(bday);
+							}
+						}
+						
+						document.getElementById("date").innerHTML =
+						yearsOld + " years old.<br><br>More precisely, I am " + yearsOld + " years, " + monthsOld + " month(s), and " + daysOld + " day(s) old."
+					</script>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<hr>
+		</div>
+	</body>
+</html>
