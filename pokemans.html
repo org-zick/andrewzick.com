@@ -16,19 +16,14 @@
 
 	<body>
 		<div class="container">
-			<header class="header">
-				<nav class="navbar navbar-default navbar-static-top">
-				  <div class="container-fluid">
-				    <div class="navbar-header">
-							<a class="navbar-brand" href="/">zicaraj<span class="sr-only">(current)</span></a>
-				    </div>
-			      <ul class="nav navbar-nav navbar-right">
-			        <li><a href="https://drive.google.com/drive/u/0/folders/1lLvl83W52izsuM3Mq8sYbbV3K3aDHX_7" target="_blank">google drive</a></li>
-			        <!-- probably a better way to link this but oh well -->
-			      </ul>
-				  </div><!-- /.container-fluid -->
-				</nav>
-			</header><!-- /header -->
+			<!-- header -->
+			{{.Include "header.html"}}
+			<!-- overwrite as needed -->
+			<script type="text/javascript">
+				document.getElementById("navbar-brand").innerHTML = "zicaraj";
+				document.getElementById("navbar-link").href = "https://drive.google.com/drive/u/0/folders/1lLvl83W52izsuM3Mq8sYbbV3K3aDHX_7";
+				document.getElementById("navbar-link").innerHTML = "google drive";
+			</script>
 			<hr>
 			<div class="row">
 				<div class="col-lg-3 left-side">

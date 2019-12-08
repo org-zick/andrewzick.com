@@ -16,20 +16,14 @@
 
 	<body>
 		<div class="container">
-			<header class="header">
-				<nav class="navbar navbar-default navbar-static-top">
-					<div class="container-fluid">
-						<div class="navbar-header">
-							<a class="navbar-brand" href="/">tick tock<span class="sr-only">(current)</span></a>
-						</div>
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="mailto:andrewzick@gmail.com" target="_blank">
-								Suggest a new counter?
-							</a></li>
-						</ul>
-					</div><!-- /.container-fluid -->
-				</nav>
-			</header><!-- /header -->
+			<!-- header -->
+			{{.Include "header.html"}}
+			<!-- overwrite as needed -->
+			<script type="text/javascript">
+				document.getElementById("navbar-brand").innerHTML = "tick tock"
+				document.getElementById("navbar-link").href = "mailto:andrewzick@gmail.com";
+				document.getElementById("navbar-link").innerHTML = "Suggest a new counter?";
+			</script>
 			<hr>
 			<div class="row">
 				<div class="col-lg-3 left-side">
