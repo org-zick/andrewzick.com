@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+	<head>
+		<!-- head -->
+		{{.Include "head.html"}}
+
+		<!-- blog.css -->
+		<link rel="stylesheet" href="static/css/blog.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<!-- header -->
+			{{.Include "header.html"}}
+			<!-- overwrite as needed -->
+			<script type="text/javascript">
+				document.getElementById("navbar-brand").innerHTML = "All the links!";
+				document.getElementById("navbar-link").href = "mailto:andrewzick@gmail.com";
+				document.getElementById("navbar-link").innerHTML = "Something broken? Just bored? Email me.";
+			</script>
+			<hr>
+			<div class="row">
+				<!-- left side -->
+				{{.Include "left-side.html"}}
+				<div class="col-lg-7 col-main blog-title">
+					<h4>Click a link! See what's there!</h4>
+					<br><br><br><br><br>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<hr>
+		</div>
+	</body>
+</html>
