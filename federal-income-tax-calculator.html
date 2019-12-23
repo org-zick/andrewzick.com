@@ -29,8 +29,7 @@
 					// Update if the user has checked the reuse box
 					if (document.getElementById("reuseCheckmark").checked) {
 						document.getElementById("totalYearlyIncome").value = yearlyIncome;
-					} else {
-						document.getElementById("totalYearlyIncome").value = "";
+						calcTaxBrackets();
 					}
 
 					return yearlyIncome;
@@ -50,7 +49,6 @@
 					// Go through each bracket and calculate the tax owed
 					for (var i = 1; i < lengthBrackets; ++i) {
 						var taxedAmount = 0;
-						console.log(`taxed amount: ${taxedAmount}`);
 						var boundary = bracketBoundaries[i];
 						var prevBoundary = bracketBoundaries[i - 1];
 
@@ -58,10 +56,10 @@
 							taxedAmount = (boundary - prevBoundary) * (taxBrackets[i] / 100);
 							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = (boundary - prevBoundary).toLocaleString();
 							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toFixed(2);
-							yearlyIncome -= boundary;
+							yearlyIncome -= (boundary - prevBoundary);
 						} else {
 							taxedAmount = yearlyIncome * (taxBrackets[i] / 100);
-							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = yearlyIncome;
+							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = yearlyIncome.toLocaleString();
 							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toFixed(2);
 							yearlyIncome = 0;
 						}
@@ -107,7 +105,7 @@
 					<hr>
 					<br>
 					<h5><b>Total yearly income: </b></h5><h5><input id="totalYearlyIncome" type="text" name="totalYearlyIncome"
-						placeholder="No commas or decimals, please" oninput="calcTaxBrackets()"></h5>
+						placeholder="No commas or decimals, please" oninput="calcTaxBrackets()" onchange="calcTaxBrackets()"></h5>
 					<br>
 					<table>
 						<tr>
