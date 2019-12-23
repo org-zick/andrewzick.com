@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+	<head>
+		<!-- to overwrite the Caddy templating, must set values before it is loaded -->
+		<title>Federal Income Tax Calculator</title>
+		<meta name="description" content="Simple Attempt at a Federal Income Tax Calculator">
+
+		<!-- head -->
+		{{.Include "head.html"}}
+
+		<!-- blog.css -->
+		<link rel="stylesheet" href="static/css/blog.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<!-- header -->
+			{{.Include "header.html"}}
+			<script type="text/javascript">
+				function calcYearlyIncome() {
+					// If no input from the user (yet), use the placeholder values instead
+					var wageStr = document.getElementById("wage").value;
+					var wage = wageStr != "" ? Number(wageStr) : Number(document.getElementById("wage").placeholder);
+					var hoursPerWeekStr = document.getElementById("hoursPerWeek").value;
+					var hoursPerWeek = hoursPerWeekStr != "" ? Number(hoursPerWeekStr) : Number(document.getElementById("hoursPerWeek").placeholder);
+					var yearlyIncome = wage * hoursPerWeek * 52;
+					document.getElementById("yearlyIncome").innerHTML = yearlyIncome.toLocaleString();
+
+					// Update if the user has checked the reuse box
+					if (document.getElementById("reuseCheckmark").checked) {
+						document.getElementById("totalYearlyIncome").value = yearlyIncome;
+					} else {
+						document.getElementById("totalYearlyIncome").value = "";
+					}
+
+					return yearlyIncome;
+				}
+
+				function calcTaxBrackets() {
+					// Constants
+					var taxBrackets = [0, 10, 12, 22, 24, 32, 35, 37];
+					var bracketBoundaries = [0, 9700, 39475, 84200, 160725, 204100, 510300];
+					var totalTaxedAmount = 0;
+					var lengthBrackets = bracketBoundaries.length;
+
+					// User's chosen magic numbers
+					var yearlyIncomeStr = document.getElementById("totalYearlyIncome").value;
+					var yearlyIncome = yearlyIncomeStr.replace(",","").replace(".",""); // just in case
+
+					// Go through each bracket and calculate the tax owed
+					for (var i = 1; i < lengthBrackets; ++i) {
+						var taxedAmount = 0;
+						console.log(`taxed amount: ${taxedAmount}`);
+						var boundary = bracketBoundaries[i];
+						var prevBoundary = bracketBoundaries[i - 1];
+
+						if (yearlyIncome > boundary) {
+							taxedAmount = (boundary - prevBoundary) * (taxBrackets[i] / 100);
+							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = (boundary - prevBoundary).toLocaleString();
+							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toFixed(2);
+							yearlyIncome -= boundary;
+						} else {
+							taxedAmount = yearlyIncome * (taxBrackets[i] / 100);
+							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = yearlyIncome;
+							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toFixed(2);
+							yearlyIncome = 0;
+						}
+
+						totalTaxedAmount += taxedAmount;
+					}
+
+					// Handle top-level tax bracket
+					taxedAmount = yearlyIncome * (taxBrackets[lengthBrackets] / 100);
+					document.getElementById(`bracket${taxBrackets[lengthBrackets]}`).innerHTML = yearlyIncome.toLocaleString();
+					document.getElementById(`taxedAmount${taxBrackets[lengthBrackets]}`).innerHTML = taxedAmount.toFixed(2);
+					yearlyIncome = 0;
+					totalTaxedAmount += taxedAmount;
+
+					return totalTaxedAmount;
+				}
+			</script>
+			<hr>
+			<div class="row">
+				<div class="col-lg-3 left-side">
+					<h3 style="text-align: center"><u>Federal Income<br>Tax Calculator</u></h3>
+					<br><br>
+					<h5 style="text-align: center"><b>Disclosure:</b></h5>
+					<h5 style="text-align: center">I'm not a tax anything.</h5>
+					<h5 style="text-align: center"><a href="https://www.irs.gov/filing/free-file-do-your-federal-taxes-for-free">Go here for IRS tax information.</a></h5>
+					<h5 style="text-align: center"><a href="https://www.nerdwallet.com/taxes/tax-calculator">Go here for a better version of this calculator.</a></h5>
+				</div>
+				<div class="col-lg-6 col-main blog-title">
+					<h4>How much do you make per year?</h4>
+					<form>
+						<br>
+						Wage (per hour):
+						<input type="text" id="wage" placeholder="14" oninput="calcYearlyIncome()">
+						<br>
+						Work hours per week:
+						<input type="text" id="hoursPerWeek" placeholder="40" oninput="calcYearlyIncome()">
+						<br><br>
+						<p>Assuming 52 weeks in a year...you make about <b>$</b><b id="yearlyIncome">29,120</b> per year (before taxes).</p>
+						<br>
+					</form>
+					<hr>
+					<label><input id="reuseCheckmark" type="checkbox" value="reuseYearlyIncomeValues" onclick="calcYearlyIncome();calcTaxBrackets()"> Check this box to use the above values for the following calculations</label>
+					<hr>
+					<br>
+					<h5><b>Total yearly income: </b></h5><h5><input id="totalYearlyIncome" type="text" name="totalYearlyIncome"
+						placeholder="No commas or decimals, please" oninput="calcTaxBrackets()"></h5>
+					<br>
+					<table>
+						<tr>
+							<th>Tax Rate</th>
+							<th>Amount taxed for each bracket</th>
+							<th>Tax owed for each bracket</th>
+						</tr>
+						<tr>
+							<th>10%</th>
+							<th id="bracket10">0</th>
+							<th id="taxedAmount10">0</th>
+						</tr>
+						<tr>
+							<th>12%</th>
+							<th id="bracket12">0</th>
+							<th id="taxedAmount12">0</th>
+						</tr>
+						<tr>
+							<th>22%</th>
+							<th id="bracket22">0</th>
+							<th id="taxedAmount22">0</th>
+						</tr>
+						<tr>
+							<th>24%</th>
+							<th id="bracket24">0</th>
+							<th id="taxedAmount24">0</th>
+						</tr>
+						<tr>
+							<th>32%</th>
+							<th id="bracket32">0</th>
+							<th id="taxedAmount32">0</th>
+						</tr>
+						<tr>
+							<th>35%</th>
+							<th id="bracket35">0</th>
+							<th id="taxedAmount35">0</th>
+						</tr>
+						<tr>
+							<th>37%</th>
+							<th id="bracket37">0</th>
+							<th id="taxedAmount37">0</th>
+						</tr>
+					</table>
+				</div>
+				<div class="col-lg-3 col-main">
+					<p><a href="https://www.nerdwallet.com/blog/taxes/federal-income-tax-brackets/">2019</a> Federal Income Tax Brackets:</p>
+					<p><i>Singles Edition</i></p>
+					<table>
+						<tr class="table-title">
+							<th>Tax Rate</th>
+							<th>Income Bracket</th>
+						</tr>
+						<tr>
+							<th>10%</th>
+							<th>$0 - $9,700</th>
+						</tr>
+						<tr>
+							<th>12%</th>
+							<th>$9,701 - $39,475</th>
+						</tr>
+						<tr>
+							<th>22%</th>
+							<th>$39,476 - $84,200</th>
+						</tr>
+						<tr>
+							<th>24%</th>
+							<th>$84,201 - $160,725</th>
+						</tr>
+						<tr>
+							<th>32%</th>
+							<th>$160,726 - $204,100</th>
+						</tr>
+						<tr>
+							<th>35%</th>
+							<th>$204,101 - $510,300</th>
+						</tr>
+						<tr>
+							<th>37%</th>
+							<th>$510,301+</th>
+						</tr>
+					</table>
+					<br>
+				</div>
+			</div>
+			<hr>
+		</div>
+	</body>
+</html>

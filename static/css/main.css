@@ -13,6 +13,39 @@ br {
 	display: block;
 }
 
+form input {
+	border: 1px solid #dddddd;
+	width: 8%;
+	height: 20px;
+	margin-top: 5px;
+}
+
+label {
+	font-weight: normal;
+	font-style: italic;
+}
+
+h5 input {
+	width: 40%;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	font-weight: normal;
+	text-align: left;
+	padding: 8px;
+}
+
+.table-title th {
+	font-weight: bold;
+}
+
+
 .navbar-default {
 	background-color: #b9b9b9;
 	margin-bottom: 10px;
