@@ -40,6 +40,8 @@
 						var daysOld = today.getDate() - bday.getDate();
 						if (monthsOld < 0 || (monthsOld === 0 && today.getDate() < bday.getDate())) {
 							--yearsOld;
+							monthsOld += 11;
+							daysOld += 30;
 						}
 						if (daysOld < 0 || (daysOld === 0 && today.getDate() < bday.getDate())) {
 							--monthsOld;
@@ -49,7 +51,7 @@
 						}
 						
 						document.getElementById("date").innerHTML =
-						yearsOld + " years old.<br><br>More precisely, I am " + yearsOld + " years, " + monthsOld + " month(s), and " + daysOld + " day(s) old."
+						yearsOld + " years old.<br><br>More accurately, I am about " + yearsOld + " years, " + monthsOld + " month(s), and " + daysOld + " day(s) old."
 					</script>
 				</div>
 				<div class="col-lg-2"></div>
