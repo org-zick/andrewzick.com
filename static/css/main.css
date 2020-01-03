@@ -25,10 +25,6 @@ label {
 	font-style: italic;
 }
 
-h5 input {
-	width: 40%;
-}
-
 table {
 	border-collapse: collapse;
 	width: 100%;
@@ -76,4 +72,8 @@ td, th {
 
 .col-main {
 	border-left: 2px solid #b9b9b9;
+}
+
+#totalYearlyIncome {
+	width: 85%;
 }

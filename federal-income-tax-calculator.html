@@ -74,6 +74,11 @@
 					yearlyIncome = 0;
 					totalTaxedAmount += taxedAmount;
 
+					// Calculate effective tax rate
+					yearlyIncome = yearlyIncomeStr.replace(",","").replace(".","");
+					var effectiveTaxRate = totalTaxedAmount / yearlyIncome * 100;
+					document.getElementById("effectiveTaxRate").innerHTML = effectiveTaxRate.toFixed(2);
+
 					return totalTaxedAmount;
 				}
 			</script>
@@ -104,8 +109,15 @@
 					<label><input id="reuseCheckmark" type="checkbox" value="reuseYearlyIncomeValues" onclick="calcYearlyIncome();calcTaxBrackets()"> Check this box to use the above values for the following calculations</label>
 					<hr>
 					<br>
-					<h5><b>Total yearly income: </b></h5><h5><input id="totalYearlyIncome" type="text" name="totalYearlyIncome"
-						placeholder="No commas or decimals, please" oninput="calcTaxBrackets()" onchange="calcTaxBrackets()"></h5>
+					<div class="row">
+						<div class="col-lg-6">
+							<h5><b>Total yearly income: </b></h5><input id="totalYearlyIncome" type="text" name="totalYearlyIncome"
+								placeholder="No commas or decimals, please" oninput="calcTaxBrackets()" onchange="calcTaxBrackets()">
+						</div>
+						<div class="col-lg-6">
+							<h5><b>Effective tax rate: </b><i id="effectiveTaxRate">0</i><i>%</i></h5>
+						</div>
+					</div>
 					<br>
 					<table>
 						<tr>
