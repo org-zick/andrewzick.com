@@ -1,0 +1,13 @@
+Currently running with just the Caddy server.
+
+You can edit the Caddyfile, somehow, but I'm not touching it.
+file is: /etc/caddy/Caddyfile
+
+I am now tracking this Caddyfile in git, so in the future, copy over the git version onto the /etc version of the file to update it. No, symbolic links don't work.
+
+
+
+Useful commands:
+sudo systemctl restart caddy
+systemctl status caddy | less
+sudo cp Caddyfile /etc/caddy/Caddyfile
