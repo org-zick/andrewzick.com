@@ -3,4 +3,8 @@ localhost:8000 {
 	log stdout
 	root /Users/andrewzick/Desktop/websites/personal-website
 	templates
+
+	proxy /slp 127.0.0.1:8080 {
+    	transparent
+	}
 }

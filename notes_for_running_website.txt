@@ -6,6 +6,8 @@ file is: /etc/caddy/Caddyfile
 I am now tracking this Caddyfile in git, so in the future, copy over the git version onto the /etc version of the file to update it. No, symbolic links don't work.
 
 
+Locally, I built Caddy from source on Mar 2nd 2020. It was release v2.0.0-beta.15. This went reasonably well, but then I had trouble getting it built from source on the Ubuntu EC2, probably because the EC2 is old. So I am going to skip upgrading to Caddy 2 for now, and switch to using Caddy 1 for local development (installed via homebrew).
+
 
 Useful commands:
 sudo systemctl restart caddy
