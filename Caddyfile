@@ -1,16 +1,14 @@
 andrewzick.com {
-    root /home/ubuntu/website
-    gzip
+    root * /personal-website
+    encode gzip
     templates
     tls andrewzick@gmail.com
-	log /home/ubuntu/website/access.log {
-		rotate_size 50  # Rotate after 50 MB
-		rotate_age  90  # Keep rotated files for 90 days
-		rotate_keep 20  # Keep at most 20 log files
-		rotate_compress # Compress rotated log files in gzip format
-	}
-	errors /home/ubuntu/website/errors.log {
-		* index.html
+	log {
+		output file /personal-website/access.log {
+			roll_size 50mb  # Rotate after 50 MB
+			roll_keep 20  # Keep at most 20 log files
+			roll_keep_for 365  # Keep rotated files for 365 days
+		}
 	}
 }
 
