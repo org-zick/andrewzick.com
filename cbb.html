@@ -2,7 +2,7 @@
 <html>
 	<head>
     <!-- head includes -->
-    {{.Include "head.html"}}
+    {{include "head.html"}}
 
 		<!-- blog.css -->
 		<link rel="stylesheet" href="static/css/blog.css">
@@ -10,23 +10,12 @@
 
 	<body>
 		<div class="container">
-			<header class="header">
-				<nav class="navbar navbar-default navbar-static-top">
-				  <div class="container-fluid">
-				    <div class="navbar-header">
-							<a class="navbar-brand" href="/">andrew zick<span class="sr-only">(current)</span></a>				    	
-				    </div>
-			      <ul class="nav navbar-nav navbar-right">
-			      	<li><a href="/security.html">links</a></li>
-			        <li><a href="/static/resume.pdf" target="_blank">resume</a></li>
-			      </ul>
-				  </div><!-- /.container-fluid -->
-				</nav> 
-			</header><!-- /header -->
+			<!-- header -->
+			{{include "header.html"}}
 			<hr>
 			<div class="row">
 				<!-- left side -->
-				{{.Include "left-side.html"}}
+				{{include "left-side.html"}}
 				<div class="col-lg-7 col-main blog-title">
 					<h1>College Basketball</h1>
 					<br>

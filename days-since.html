@@ -5,7 +5,7 @@
 		<title>Days since...</title>
 
     <!-- head includes -->
-    {{.Include "head.html"}}
+    {{include "head.html"}}
 
 		<!-- blog.css -->
 		<link rel="stylesheet" href="static/css/days-since.css">
@@ -17,7 +17,7 @@
 	<body>
 		<div class="container">
 			<!-- header -->
-			{{.Include "header.html"}}
+			{{include "header.html"}}
 			<!-- overwrite as needed -->
 			<script type="text/javascript">
 				document.getElementById("navbar-brand").innerHTML = "tick tock";
