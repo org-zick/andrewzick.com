@@ -8,8 +8,9 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 
 ## Todo
 - Rework the whole website to run as a container
-  - Run Caddy locally in a container
-  - Setup my website inside this local container
+  - ~~Run Caddy locally in a container~~
+  - ~~Setup my website inside this local container~~
+  - Try running the website in ECS or something?
   - Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)
 
 
