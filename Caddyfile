@@ -1,19 +1,7 @@
-andrewzick.com {
-    root * /personal-website
+localhost {
     encode gzip
+    file_server
+    log
+    root * /personal-website
     templates
-    tls andrewzick@gmail.com
-	log {
-		output file /personal-website/access.log {
-			roll_size 50mb  # Rotate after 50 MB
-			roll_keep 20  # Keep at most 20 log files
-			roll_keep_for 365  # Keep rotated files for 365 days
-		}
-	}
-}
-
-*.andrewzick.com:80 {
-    proxy / localhost:9001 {
-        transparent
-    }
 }

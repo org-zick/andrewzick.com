@@ -15,6 +15,7 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 
 ## Future
 - Add pre-commit to this repo
+- Run my website off IPv6
 - Fix the top-level folder organization to have the html pages in a folder, but still work with templating
 - Integrate my CBB bracket and SLP ideas into the website, possible as subdomains
 
