@@ -70,6 +70,26 @@ resource "aws_ecr_repository" "docker-images-ecr" {
   image_tag_mutability = "IMMUTABLE"
 }
 
+resource "aws_ecr_repository_policy" "docker-images-ecr-policy" {
+  repository = aws_ecr_repository.docker-images-ecr.name
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "docker-containers ECR access policy",
+      "Effect": "Allow",
+      "Principal":{"AWS":"arn:aws:iam::153765495495:user/andrewzick"},
+      "Action": [
+        "ecr:*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 terraform {
   backend "s3" {
     bucket = "personal-website-tf-state-prod"
