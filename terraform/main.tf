@@ -65,6 +65,11 @@ resource "aws_s3_bucket_public_access_block" "tf-state-block-public-access" {
   restrict_public_buckets = true
 }
 
+resource "aws_ecr_repository" "docker-images-ecr" {
+  name                 = "docker-containers"
+  image_tag_mutability = "IMMUTABLE"
+}
+
 terraform {
   backend "s3" {
     bucket = "personal-website-tf-state-prod"
