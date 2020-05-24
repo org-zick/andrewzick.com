@@ -25,3 +25,10 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 - Added a bunch of kooky joke pages
 - Edited my main page summary a billion times
 - Constantly flip flopped on whether or not to have my face on the site
+
+###
+
+## Pushing a Docker image to ECR
+- Get ECR credentials with `aws ecr get-login-password | docker login --username AWS --password-stdin 153765495495.dkr.ecr.us-east-1.amazonaws.com`
+- Tag the new image wth `docker tag IMAGE_ID 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:my-image-tag`. The ECR repository is call `personal-website` and the tag for the website would be a number like `1`.
+- Push the image to ECR with `docker push 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:my-image-tag`

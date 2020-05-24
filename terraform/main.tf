@@ -65,20 +65,20 @@ resource "aws_s3_bucket_public_access_block" "tf-state-block-public-access" {
   restrict_public_buckets = true
 }
 
-resource "aws_ecr_repository" "docker-images-ecr" {
-  name                 = "docker-containers"
+resource "aws_ecr_repository" "personal-website-ecr" {
+  name                 = "personal-website"
   image_tag_mutability = "IMMUTABLE"
 }
 
-resource "aws_ecr_repository_policy" "docker-images-ecr-policy" {
-  repository = aws_ecr_repository.docker-images-ecr.name
+resource "aws_ecr_repository_policy" "personal-website-ecr-policy" {
+  repository = aws_ecr_repository.personal-website-ecr.name
 
   policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "docker-containers ECR access policy",
+      "Sid": "personal-website ECR access policy",
       "Effect": "Allow",
       "Principal":{"AWS":"arn:aws:iam::153765495495:user/andrewzick"},
       "Action": [
