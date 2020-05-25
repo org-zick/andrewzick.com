@@ -136,8 +136,58 @@ resource "aws_ecs_cluster" "personal-website-cluster" {
   name = "personal-website-cluster"
 }
 
+resource "aws_iam_role" "personal-website-task-role" {
+  name = "personal-website-task-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "personal-website-task-policy" {
+  name  = "personal-website-task-policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "personal-website-task-policy-attachment" {
+  role       = aws_iam_role.personal-website-task-role.name
+  policy_arn = aws_iam_policy.personal-website-task-policy.arn
+}
+
 resource "aws_ecs_task_definition" "personal-website-task-definition" {
   family                = "personal-website-task"
+  task_role_arn         = aws_iam_role.personal-website-task-role.arn
   container_definitions = <<EOF
 [
   {
@@ -149,13 +199,11 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
     "portMappings": [
       {
         "containerPort": 80,
-        "hostPort": 80,
-        "protocol": "tcp"
+        "hostPort": 80
       },
       {
         "containerPort": 443,
-        "hostPort": 443,
-        "protocol": "tcp"
+        "hostPort": 443
       }
     ],
     "mountPoints": [
@@ -177,7 +225,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
 EOF
 
   volume {
-    name      = "personal-website-caddy-data"
+    name = "personal-website-caddy-data"
 
     docker_volume_configuration {
       scope         = "shared"
