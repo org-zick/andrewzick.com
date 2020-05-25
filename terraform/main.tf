@@ -194,8 +194,8 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
   {
     "name": "personal-website",
     "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:v1",
-    "cpu": 1024,
-    "memory": 1024,
+    "cpu": 128,
+    "memoryReservation": 128,
     "essential": true,
     "portMappings": [
       {
