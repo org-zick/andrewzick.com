@@ -188,6 +188,7 @@ resource "aws_iam_role_policy_attachment" "personal-website-task-policy-attachme
 resource "aws_ecs_task_definition" "personal-website-task-definition" {
   family                = "personal-website-task"
   task_role_arn         = aws_iam_role.personal-website-task-role.arn
+  execution_role_arn    = aws_iam_role.personal-website-task-role.arn
   container_definitions = <<EOF
 [
   {
