@@ -136,6 +136,56 @@ resource "aws_ecs_cluster" "personal-website-cluster" {
   name = "personal-website-cluster"
 }
 
+resource "aws_ecs_task_definition" "personal-website-task-definition" {
+  family                = "personal-website-task"
+  container_definitions = <<EOF
+[
+  {
+    "name": "personal-website",
+    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:v1",
+    "cpu": 1024,
+    "memory": 1024,
+    "essential": true,
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 80,
+        "protocol": "tcp"
+      },
+      {
+        "containerPort": 443,
+        "hostPort": 443,
+        "protocol": "tcp"
+      }
+    ],
+    "mountPoints": [
+      {
+        "sourceVolume": "personal-website-caddy-data",
+        "containerPath": "/data"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "us-east-1",
+        "awslogs-group": "personal-website-logs",
+        "awslogs-stream-prefix": "complete-ecs"
+      }
+    }
+  }
+]
+EOF
+
+  volume {
+    name      = "personal-website-caddy-data"
+
+    docker_volume_configuration {
+      scope         = "shared"
+      autoprovision = true
+    }
+  }
+}
+
 terraform {
   backend "s3" {
     bucket = "personal-website-tf-state-prod"
