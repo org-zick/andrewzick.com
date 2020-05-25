@@ -127,6 +127,15 @@ resource "aws_ecr_lifecycle_policy" "personal-website-ecr-lifecycle-policy" {
 EOF
 }
 
+resource "aws_cloudwatch_log_group" "personal-website-logs" {
+  name              = "personal-website-logs"
+  retention_in_days = 7
+}
+
+resource "aws_ecs_cluster" "personal-website-cluster" {
+  name = "personal-website-cluster"
+}
+
 terraform {
   backend "s3" {
     bucket = "personal-website-tf-state-prod"
