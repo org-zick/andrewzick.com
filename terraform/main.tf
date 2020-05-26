@@ -302,7 +302,93 @@ resource "aws_vpc" "personal-website-vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
+resource "aws_subnet" "personal-website-vpc-subnet-1" {
+  vpc_id     = aws_vpc.personal-website-vpc.id
+  cidr_block = "10.0.1.0/24"
+}
 
+resource "aws_security_group" "personal-website-sg" {
+  name        = "personal-website-sg"
+  description = "Allow inbound/outbound traffic"
+  vpc_id      = aws_vpc.personal-website-vpc.id
+
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.personal-website-vpc.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_tls"
+  }
+}
+
+data "aws_ami" "ubuntu_ami" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+resource "aws_launch_configuration" "container-instance-launch-configuration" {
+  name_prefix = "ecs-personal-website-"
+
+  iam_instance_profile = aws_iam_instance_profile.container-instance-ec2-profile.name
+
+  instance_type               = "t3.micro"
+  image_id                    = data.aws_ami.ubuntu_ami.id
+  associate_public_ip_address = false
+  security_groups             = [aws_security_group.personal-website-sg.id]
+
+  root_block_device {
+    volume_type           = "standard"
+    volume_size           = 10
+    delete_on_termination = false
+    encrypted             = true
+  }
+
+  user_data = <<EOF
+#!/bin/bash
+# The cluster this agent should check into.
+echo 'ECS_CLUSTER=${aws_ecs_cluster.personal-website-cluster.name}' >> /etc/ecs/ecs.config
+# Disable privileged containers.
+echo 'ECS_DISABLE_PRIVILEGED=true' >> /etc/ecs/ecs.config
+EOF
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_autoscaling_group" "personal-website-asg" {
+  name                 = "personal-website-asg"
+  launch_configuration = aws_launch_configuration.container-instance-launch-configuration.name
+  min_size             = 1
+  max_size             = 1
+  desired_capacity     = 1
+  vpc_zone_identifier  = [aws_subnet.personal-website-vpc-subnet-1.id]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "aws_ecs_service" "personal-website-service" {
   name            = "personal-website-service"
