@@ -292,6 +292,35 @@ resource "aws_iam_role_policy_attachment" "container-instance-ec2-policy-attachm
   policy_arn = aws_iam_policy.container-instance-ec2-policy.arn
 }
 
+resource "aws_vpc" "personal-website-vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_security_group" "personal-website-sg" {
+  name        = "personal-website-sg"
+  description = "Allow inbound/outbound traffic"
+  vpc_id      = aws_vpc.personal-website-vpc.id
+
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.personal-website-vpc.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_tls"
+  }
+}
+
 terraform {
   backend "s3" {
     bucket = "personal-website-tf-state-prod"
