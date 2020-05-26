@@ -292,32 +292,32 @@ resource "aws_iam_role_policy_attachment" "container-instance-ec2-policy-attachm
   policy_arn = aws_iam_policy.container-instance-ec2-policy.arn
 }
 
+resource "aws_iam_instance_profile" "container-instance-ec2-profile" {
+  name = "econtainer-instance-ec2-profile"
+  path = "/"
+  role = aws_iam_role.container-instance-ec2-role.name
+}
+
 resource "aws_vpc" "personal-website-vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
-resource "aws_security_group" "personal-website-sg" {
-  name        = "personal-website-sg"
-  description = "Allow inbound/outbound traffic"
-  vpc_id      = aws_vpc.personal-website-vpc.id
 
-  ingress {
-    description = "TLS from VPC"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [aws_vpc.personal-website-vpc.cidr_block]
+
+resource "aws_ecs_service" "personal-website-service" {
+  name            = "personal-website-service"
+  cluster         = aws_ecs_cluster.personal-website-cluster.id
+  task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
+  desired_count   = 1
+
+  ordered_placement_strategy {
+    type  = "binpack"
+    field = "cpu"
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "allow_tls"
+  # Optional: Allow external changes without Terraform plan difference
+  lifecycle {
+    ignore_changes = [desired_count]
   }
 }
 
