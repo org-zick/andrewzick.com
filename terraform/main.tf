@@ -322,10 +322,10 @@ resource "aws_security_group" "personal-website-sg" {
   vpc_id      = aws_vpc.personal-website-vpc.id
 
   ingress {
-    description = "TLS from VPC"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    description = "Everything"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = [aws_vpc.personal-website-vpc.cidr_block]
   }
 
@@ -377,6 +377,8 @@ resource "aws_launch_configuration" "container-instance-launch-configuration" {
 #!/bin/bash
 # The cluster this agent should check into.
 echo 'ECS_CLUSTER=${local.cluster_name}' >> /etc/ecs/ecs.config
+# Enable ECS task role.
+ECS_ENABLE_TASK_IAM_ROLE=true
 # Disable privileged containers.
 echo 'ECS_DISABLE_PRIVILEGED=true' >> /etc/ecs/ecs.config
 EOF
