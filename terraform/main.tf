@@ -3,6 +3,10 @@ provider "aws" {
   region  = var.region
 }
 
+locals {
+  cluster_name = "personal-website-cluster"
+}
+
 resource "aws_kms_key" "s3-enc-key" {
   description             = "KMS key for encrypting S3 files in ${var.environment}"
   deletion_window_in_days = 10
@@ -133,7 +137,12 @@ resource "aws_cloudwatch_log_group" "personal-website-logs" {
 }
 
 resource "aws_ecs_cluster" "personal-website-cluster" {
-  name = "personal-website-cluster"
+  name = local.cluster_name
+  capacity_providers = [aws_ecs_capacity_provider.personal-website-cp.name]
+
+  default_capacity_provider_strategy {
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cp.name
+  }
 }
 
 resource "aws_iam_role" "personal-website-task-role" {
@@ -367,7 +376,7 @@ resource "aws_launch_configuration" "container-instance-launch-configuration" {
   user_data = <<EOF
 #!/bin/bash
 # The cluster this agent should check into.
-echo 'ECS_CLUSTER=${aws_ecs_cluster.personal-website-cluster.name}' >> /etc/ecs/ecs.config
+echo 'ECS_CLUSTER=${local.cluster_name}' >> /etc/ecs/ecs.config
 # Disable privileged containers.
 echo 'ECS_DISABLE_PRIVILEGED=true' >> /etc/ecs/ecs.config
 EOF
@@ -390,11 +399,11 @@ resource "aws_autoscaling_group" "personal-website-asg" {
   }
 }
 
-resource "aws_ecs_capacity_provider" "personal-website-capacity-provider" {
-  name = "personal-website-capacity-provider"
+resource "aws_ecs_capacity_provider" "personal-website-cp" {
+  name = "personal-website-cp"
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn         = aws_autoscaling_group.personal-website-asg.arn
+    auto_scaling_group_arn = aws_autoscaling_group.personal-website-asg.arn
 
     managed_scaling {
       maximum_scaling_step_size = 10
@@ -410,6 +419,11 @@ resource "aws_ecs_service" "personal-website-service" {
   cluster         = aws_ecs_cluster.personal-website-cluster.id
   task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
   desired_count   = 1
+
+  capacity_provider_strategy {
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cp.arn
+    weight            = 100
+  }
 
   ordered_placement_strategy {
     type  = "binpack"
