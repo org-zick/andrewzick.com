@@ -390,6 +390,21 @@ resource "aws_autoscaling_group" "personal-website-asg" {
   }
 }
 
+resource "aws_ecs_capacity_provider" "personal-website-capacity-provider" {
+  name = "personal-website-capacity-provider"
+
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.personal-website-asg.arn
+
+    managed_scaling {
+      maximum_scaling_step_size = 10
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 75
+    }
+  }
+}
+
 resource "aws_ecs_service" "personal-website-service" {
   name            = "personal-website-service"
   cluster         = aws_ecs_cluster.personal-website-cluster.id
