@@ -316,6 +316,12 @@ resource "aws_subnet" "personal-website-vpc-subnet-1" {
   cidr_block = "10.0.1.0/24"
 }
 
+resource "aws_subnet" "personal-website-vpc-subnet-2" {
+  vpc_id     = aws_vpc.personal-website-vpc.id
+  cidr_block = "10.0.2.0/24"
+  map_public_ip_on_launch = true
+}
+
 resource "aws_security_group" "personal-website-sg" {
   name        = "personal-website-sg"
   description = "Allow inbound/outbound traffic"
@@ -394,7 +400,7 @@ resource "aws_autoscaling_group" "personal-website-asg" {
   min_size             = 1
   max_size             = 1
   desired_capacity     = 1
-  vpc_zone_identifier  = [aws_subnet.personal-website-vpc-subnet-1.id]
+  vpc_zone_identifier  = [aws_subnet.personal-website-vpc-subnet-2.id]
 
   lifecycle {
     create_before_destroy = true
