@@ -375,7 +375,7 @@ data "aws_ami" "ubuntu_ami" {
 #   root_block_device {
 #     volume_type           = "standard"
 #     volume_size           = 10
-#     delete_on_termination = false
+#     delete_on_termination = true
 #     encrypted             = true
 #   }
 
