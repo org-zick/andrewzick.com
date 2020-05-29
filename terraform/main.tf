@@ -74,68 +74,6 @@ resource "aws_s3_bucket_public_access_block" "tf-state-block-public-access" {
   restrict_public_buckets = true
 }
 
-resource "aws_ecr_repository" "personal-website-ecr" {
-  name                 = "personal-website"
-  image_tag_mutability = "IMMUTABLE"
-}
-
-resource "aws_ecr_repository_policy" "personal-website-ecr-repo-policy" {
-  repository = aws_ecr_repository.personal-website-ecr.name
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "personal-website ECR access policy",
-      "Effect": "Allow",
-      "Principal":{"AWS":"arn:aws:iam::153765495495:user/andrewzick"},
-      "Action": [
-        "ecr:*"
-      ]
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_ecr_lifecycle_policy" "personal-website-ecr-lifecycle-policy" {
-  repository = aws_ecr_repository.personal-website-ecr.name
-
-  policy = <<EOF
-{
-  "rules": [
-    {
-      "rulePriority": 1,
-      "description": "Keep last 30 tagged images",
-      "selection": {
-        "tagStatus": "tagged",
-        "tagPrefixList": ["v"],
-        "countType": "imageCountMoreThan",
-        "countNumber": 30
-      },
-      "action": {
-        "type": "expire"
-      }
-    },
-    {
-      "rulePriority": 2,
-      "description": "Expire untagged images older than 60 days",
-      "selection": {
-        "tagStatus": "untagged",
-        "countType": "sinceImagePushed",
-        "countUnit": "days",
-        "countNumber": 60
-      },
-      "action": {
-        "type": "expire"
-      }
-    }
-  ]
-}
-EOF
-}
-
 # resource "aws_cloudwatch_log_group" "personal-website-logs" {
 #   name              = "personal-website-logs"
 #   retention_in_days = 7
