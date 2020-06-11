@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  caddy:
+    volumes:
+      - personal-website-data:/data
+    build:
+      context: .
+      target: dev
+    ports:
+      - 80:80
+      - 443:443
+      - 2019:2019
+
+volumes:
+  personal-website-data:
