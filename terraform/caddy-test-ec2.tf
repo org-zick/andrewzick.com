@@ -5,10 +5,10 @@ resource "aws_key_pair" "aws-ec2-ssh-key-pair" {
 
 data "aws_ami" "ubuntu_20-04_LTS_ami" {
   most_recent = true
-  owners      = ["099720109477"]  # Ubuntu
+  owners      = ["099720109477"] # Ubuntu
 
   filter {
-    name = "name"
+    name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
@@ -18,21 +18,23 @@ data "aws_ami" "ubuntu_20-04_LTS_ami" {
   }
 
   filter {
-    name = "virtualization-type"
+    name   = "virtualization-type"
     values = ["hvm"]
   }
 }
 
-# resource "aws_instance" "caddy_test_ec2_instance" {
-#   ami           = data.aws_ami.ubuntu_20-04_LTS_ami.id
-#   instance_type = "t3a.micro"
-#   key_name      = aws_key_pair.aws-ec2-ssh-key-pair.id
-#   associate_public_ip_address = true
+resource "aws_instance" "caddy-test-ec2-instance" {
+  ami                         = data.aws_ami.ubuntu_20-04_LTS_ami.id
+  instance_type               = "t3a.micro"
+  key_name                    = aws_key_pair.aws-ec2-ssh-key-pair.id
+  subnet_id                   = aws_subnet.pw-public-subnet.id
+  vpc_security_group_ids      = [aws_security_group.pw-sg-allow-ssh.id]
+  associate_public_ip_address = true
 
-#   root_block_device {
-#     volume_type           = "standard"
-#     volume_size           = 10
-#     delete_on_termination = true
-#     encrypted             = true
-#   }
-# }
+  root_block_device {
+    volume_type           = "standard"
+    volume_size           = 10
+    delete_on_termination = true
+    encrypted             = true
+  }
+}
