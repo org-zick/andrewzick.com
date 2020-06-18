@@ -1,10 +1,18 @@
 andrewzick.com {
-    encode gzip
-    file_server
+	encode gzip
+	file_server
     log
     root * /personal-website
     templates
     tls {
     	ca https://acme-staging-v02.api.letsencrypt.org/directory
     }
+}
+
+localhost {
+	encode gzip
+    file_server
+    log
+    root * /personal-website
+    templates
 }
