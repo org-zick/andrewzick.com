@@ -76,23 +76,59 @@ resource "aws_route_table_association" "pw-public-route-table-assoc" {
   route_table_id = aws_route_table.pw-route-table.id
 }
 
-resource "aws_elb" "pw-elb" {
-  name               = "pw-elb"
-  availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  security_groups    = [aws_security_group.pw-sg-elb-web-traffic.id]
-  instances          = [aws_instance.caddy-test-ec2-instance.id]
+resource "aws_lb" "pw-nlb" {
+  name               = "pw-nlb"
+  internal           = false
+  load_balancer_type = "network"
+  subnets            = [aws_subnet.pw-public-subnet.id]
 
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
-  }
+  enable_deletion_protection = true
+}
 
-  listener {
-    instance_port     = 443
-    instance_protocol = "https"
-    lb_port           = 443
-    lb_protocol       = "https"
+resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
+  name     = "pw-nlb-target-group-port-80"
+  port     = 80
+  protocol = "TCP"
+  vpc_id   = aws_vpc.pw-vpc.id
+}
+
+resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
+  name     = "pw-nlb-target-group-port-443"
+  port     = 443
+  protocol = "TCP"
+  vpc_id   = aws_vpc.pw-vpc.id
+}
+
+resource "aws_lb_listener" "pw-nlb-listener-port-80" {
+  load_balancer_arn = aws_lb.pw-nlb.arn
+  port              = "80"
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
   }
+}
+
+resource "aws_lb_listener" "pw-nlb-listener-port-443" {
+  load_balancer_arn = aws_lb.pw-nlb.arn
+  port              = "443"
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
+  }
+}
+
+resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-80" {
+  target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
+  target_id        = "${aws_instance.test.id}"
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-443" {
+  target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
+  target_id        = aws_instance.caddy-test-ec2-instance.id
+  port             = 443
 }
