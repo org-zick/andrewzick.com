@@ -23,8 +23,8 @@ resource "aws_security_group" "pw-sg-allow-ssh" {
   }
 }
 
-resource "aws_security_group" "pw-sg-elb-web-traffic" {
-  name   = "elb_web_traffic"
+resource "aws_security_group" "pw-sg-allow-web-traffic" {
+  name   = "allow-web-traffic"
   vpc_id = aws_vpc.pw-vpc.id
 
   ingress {
@@ -123,7 +123,7 @@ resource "aws_lb_listener" "pw-nlb-listener-port-443" {
 
 resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-80" {
   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-  target_id        = "${aws_instance.test.id}"
+  target_id        = aws_instance.caddy-test-ec2-instance.id
   port             = 80
 }
 
