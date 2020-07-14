@@ -1,4 +1,4 @@
-andrewzick.com {
+andrewzick.com, dev.andrewzick.com {
 	encode gzip
 	file_server
 	log
