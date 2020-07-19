@@ -35,10 +35,9 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 ###
 
 ## Pushing a Docker image to ECR
-- Build a new image with `docker build -f Dockerfile --target DEV .`
+- Build a new image with `docker build -f Dockerfile --target DEV -t 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_TAG_NUMBER .` The ECR repository is called `personal-website` and the tag for the website would be a number like `4`. Specify the target as `DEV` or `PROD` to build with the corresponding Caddyfiles.
 - Get ECR credentials with `aws ecr get-login-password | docker login --username AWS --password-stdin 153765495495.dkr.ecr.us-east-1.amazonaws.com`
-- Tag the new image wth `docker tag IMAGE_ID 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:my-image-tag`. The ECR repository is called `personal-website` and the tag for the website would be a number like `1`.
-- Push the image to ECR with `docker push 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:my-image-tag`
+- Push the image to ECR with `docker push 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_TAG_NUMBER`
 
 ## Running the Docker image on an EC2
 - Install Docker and start the daemon
