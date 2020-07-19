@@ -1,0 +1,12 @@
+dev.andrewzick.com {
+	encode gzip
+	file_server
+	log
+	root * /personal-website
+	templates
+	tls andrewzick@gmail.com
+	# test with Let's Encrypt staging:
+	#tls {
+	#	ca https://acme-staging-v02.api.letsencrypt.org/directory
+	#}
+}
