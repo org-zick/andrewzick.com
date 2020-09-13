@@ -25,7 +25,7 @@ data "aws_ami" "ubuntu_20-04_LTS_ami" {
 
 resource "aws_instance" "caddy-test-ec2-instance" {
   ami                         = data.aws_ami.ubuntu_20-04_LTS_ami.id
-  instance_type               = "t3a.micro"
+  instance_type               = "t3a.nano"
   key_name                    = aws_key_pair.aws-ec2-ssh-key-pair.id
   subnet_id                   = aws_subnet.pw-public-subnet.id
   vpc_security_group_ids      = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]

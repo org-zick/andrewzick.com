@@ -245,46 +245,6 @@ resource "aws_s3_bucket_public_access_block" "tf-state-block-public-access" {
 #   role = aws_iam_role.container-instance-ec2-role.name
 # }
 
-# resource "aws_vpc" "personal-website-vpc" {
-#   cidr_block = "10.0.0.0/16"
-# }
-
-# resource "aws_subnet" "personal-website-vpc-subnet-1" {
-#   vpc_id     = aws_vpc.personal-website-vpc.id
-#   cidr_block = "10.0.1.0/24"
-# }
-
-# resource "aws_subnet" "personal-website-vpc-subnet-2" {
-#   vpc_id     = aws_vpc.personal-website-vpc.id
-#   cidr_block = "10.0.2.0/24"
-#   map_public_ip_on_launch = true
-# }
-
-# resource "aws_security_group" "personal-website-sg" {
-#   name        = "personal-website-sg"
-#   description = "Allow inbound/outbound traffic"
-#   vpc_id      = aws_vpc.personal-website-vpc.id
-
-#   ingress {
-#     description = "Everything"
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   tags = {
-#     Name = "allow_tls"
-#   }
-# }
-
 # resource "aws_launch_configuration" "container-instance-launch-configuration" {
 #   name_prefix = "ecs-personal-website-"
 

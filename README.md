@@ -17,6 +17,7 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
   		- ~~Try running Docker on an EC2 and then running the website container on that~~
   		- ~~Needed to `docker run` with ports 80 and 443 explicitly in the CLI call~~
   		- ~~Needed to add `dev.andrewzick.com` to the Caddyfile and a CNAME DNS record to the NLB~~
+  		- Hook up an ASG to the NLB with min and max as 1 EC2, then set up the website on that EC2
   - Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)
 
 

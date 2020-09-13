@@ -1,3 +1,4 @@
+/* VPC and Security Groups */
 resource "aws_vpc" "pw-vpc" {
   cidr_block = "10.0.0.0/23"
 }
@@ -52,12 +53,14 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
   }
 }
 
+/* 1 public subnet, /26 */
 resource "aws_subnet" "pw-public-subnet" {
   vpc_id            = aws_vpc.pw-vpc.id
   cidr_block        = "10.0.0.0/26"
   availability_zone = "us-east-1a"
 }
 
+/* IGW so that the public subnet is reachable from the internet */
 resource "aws_internet_gateway" "pw-internet-gateway" {
   vpc_id = aws_vpc.pw-vpc.id
 }
@@ -76,6 +79,7 @@ resource "aws_route_table_association" "pw-public-route-table-assoc" {
   route_table_id = aws_route_table.pw-route-table.id
 }
 
+/* NLB for the public subnet, forwards ports 80 and 443 to the VPC */
 resource "aws_lb" "pw-nlb" {
   name               = "pw-nlb"
   internal           = false
@@ -121,6 +125,7 @@ resource "aws_lb_listener" "pw-nlb-listener-port-443" {
   }
 }
 
+/* Attach the appropriate EC2(s) as the target of the NLB */
 resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-80" {
   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
   target_id        = aws_instance.caddy-test-ec2-instance.id
