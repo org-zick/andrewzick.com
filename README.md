@@ -14,10 +14,14 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
   	- Start up an EC2 that gets traffic via an NLB
   		- ~~Try running the website from a directory on the EC2~~
   		- ~~Needed to (bad security) copy creds onto the EC2 to pull the website docker image~~
+  			- ~~ssh in with aws.pem~~
   		- ~~Try running Docker on an EC2 and then running the website container on that~~
   		- ~~Needed to `docker run` with ports 80 and 443 explicitly in the CLI call~~
   		- ~~Needed to add `dev.andrewzick.com` to the Caddyfile and a CNAME DNS record to the NLB~~
   		- Hook up an ASG to the NLB with min and max as 1 EC2, then set up the website on that EC2
+  			- I'm not sure if this step is really necessary?
+		- Try running a container website for dev.andrewzick.com
+			- Hook up the NLB to this ECS cluster
   - Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)
 
 

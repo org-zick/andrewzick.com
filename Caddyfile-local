@@ -1,0 +1,7 @@
+localhost {
+	encode gzip
+	file_server
+	log
+	root * /personal-website
+	templates
+}
