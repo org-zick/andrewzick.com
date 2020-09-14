@@ -15,7 +15,6 @@ resource "aws_kms_key" "s3-enc-key" {
 
 resource "aws_s3_bucket" "tf-state-s3" {
   bucket = "personal-website-tf-state-${var.environment}"
-  region = var.region
   acl    = "private"
 
   versioning {
