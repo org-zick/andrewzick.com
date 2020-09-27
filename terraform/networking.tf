@@ -125,15 +125,18 @@ resource "aws_lb_listener" "pw-nlb-listener-port-443" {
   }
 }
 
-/* Attach the appropriate EC2(s) as the target of the NLB */
-resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-80" {
-  target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-  target_id        = aws_instance.caddy-test-ec2-instance.id
-  port             = 80
-}
+/* Attach the appropriate EC2(s) as the target of the NLB
 
-resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-443" {
-  target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
-  target_id        = aws_instance.caddy-test-ec2-instance.id
-  port             = 443
-}
+  Alternatively, attach to an ECS cluster
+*/
+# resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-80" {
+#   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
+#   target_id        = aws_instance.caddy-test-ec2-instance.id
+#   port             = 80
+# }
+
+# resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-443" {
+#   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
+#   target_id        = aws_instance.caddy-test-ec2-instance.id
+#   port             = 443
+# }

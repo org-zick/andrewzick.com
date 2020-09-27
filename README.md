@@ -21,6 +21,7 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
   		- Hook up an ASG to the NLB with min and max as 1 EC2, then set up the website on that EC2
   			- I'm not sure if this step is really necessary?
 		- Try running a container website for dev.andrewzick.com
+			- Publish a dev container to ECR
 			- Hook up the NLB to this ECS cluster
   - Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)
 
