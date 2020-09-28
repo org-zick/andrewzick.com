@@ -91,12 +91,12 @@ resource "aws_lb" "pw-nlb" {
   enable_deletion_protection = true
 }
 
-# resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
-#   name     = "pw-nlb-target-group-port-80"
-#   port     = 80
-#   protocol = "TCP"
-#   vpc_id   = aws_vpc.pw-vpc.id
-# }
+resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
+  name     = "pw-nlb-target-group-port-80"
+  port     = 80
+  protocol = "TCP"
+  vpc_id   = aws_vpc.pw-vpc.id
+}
 
 resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   name     = "pw-nlb-target-group-port-443"
@@ -105,16 +105,16 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   vpc_id   = aws_vpc.pw-vpc.id
 }
 
-# resource "aws_lb_listener" "pw-nlb-listener-port-80" {
-#   load_balancer_arn = aws_lb.pw-nlb.arn
-#   port              = "80"
-#   protocol          = "TCP"
+resource "aws_lb_listener" "pw-nlb-listener-port-80" {
+  load_balancer_arn = aws_lb.pw-nlb.arn
+  port              = "80"
+  protocol          = "TCP" # listeners that are attached to Network Load Balancers must use the TCP protocol
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-#   }
-# }
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
+  }
+}
 
 resource "aws_lb_listener" "pw-nlb-listener-port-443" {
   load_balancer_arn = aws_lb.pw-nlb.arn

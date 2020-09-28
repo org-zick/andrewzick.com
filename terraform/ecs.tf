@@ -206,11 +206,11 @@ resource "aws_ecs_service" "personal-website-service" {
   task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
   desired_count   = 1
 
-  # load_balancer {
-  #   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-  #   container_name   = "personal-website"
-  #   container_port   = 80
-  # }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
+    container_name   = "personal-website"
+    container_port   = 80
+  }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
