@@ -195,7 +195,8 @@ resource "aws_ecs_capacity_provider" "personal-website-cap-provider" {
       maximum_scaling_step_size = 10
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
-      target_capacity           = 75  # this is actually the CPU usage
+      # This is actually the CPU usage, don't need it for only 1 instance
+      # target_capacity           = 75
     }
   }
 }

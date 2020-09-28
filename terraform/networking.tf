@@ -96,6 +96,17 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
   port     = 80
   protocol = "TCP"
   vpc_id   = aws_vpc.pw-vpc.id
+
+  # https://stackoverflow.com/a/60080801/2521402
+  # Add lifecycle to help with changes, but might still need to rename every time
+  # Might have to rename the listeners as well, so that they create and destroy
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  health_check {
+    protocol = "HTTP"
+  }
 }
 
 resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
@@ -103,6 +114,14 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   port     = 443
   protocol = "TCP"
   vpc_id   = aws_vpc.pw-vpc.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  health_check {
+    protocol = "HTTP"
+  }
 }
 
 resource "aws_lb_listener" "pw-nlb-listener-port-80" {
