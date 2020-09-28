@@ -112,6 +112,7 @@ EOF
 }
 
 # From here: https://gist.githubusercontent.com/paweldudzinski/c536455fa8f1d74ffc9bce9f1396a6a9/raw/1a8c86e4cd4fd9e5e8008c04d23d21da0a29697e/iam.tf
+# These four parts are necessary to allow the EC2 to work with ECS
 data "aws_iam_policy_document" "ecs-agent-policy-document" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -135,7 +136,6 @@ resource "aws_iam_role_policy_attachment" "ecs-agent-policy-attachment" {
 
 resource "aws_iam_instance_profile" "ecs-agent-profile" {
   name = "ecs-agent-profile"
-  # path = "/"
   role = aws_iam_role.ecs-agent-role.name
 }
 
@@ -206,11 +206,11 @@ resource "aws_ecs_service" "personal-website-service" {
   task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
   desired_count   = 1
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-    container_name   = "personal-website"
-    container_port   = 80
-  }
+  # load_balancer {
+  #   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
+  #   container_name   = "personal-website"
+  #   container_port   = 80
+  # }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn

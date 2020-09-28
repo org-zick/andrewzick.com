@@ -10,7 +10,7 @@ resource "aws_security_group" "pw-sg-allow-ssh" {
   ingress {
     from_port = 22
     to_port   = 22
-    protocol  = "tcp"
+    protocol  = "TCP"
     cidr_blocks = [
     "0.0.0.0/0"]
   }
@@ -32,7 +32,7 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
   ingress {
     from_port = 80
     to_port   = 80
-    protocol  = "tcp"
+    protocol  = "TCP"
     cidr_blocks = [
     "0.0.0.0/0"]
   }
@@ -40,7 +40,7 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
   ingress {
     from_port = 443
     to_port   = 443
-    protocol  = "tcp"
+    protocol  = "TCP"
     cidr_blocks = [
     "0.0.0.0/0"]
   }
@@ -91,12 +91,12 @@ resource "aws_lb" "pw-nlb" {
   enable_deletion_protection = true
 }
 
-resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
-  name     = "pw-nlb-target-group-port-80"
-  port     = 80
-  protocol = "TCP"
-  vpc_id   = aws_vpc.pw-vpc.id
-}
+# resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
+#   name     = "pw-nlb-target-group-port-80"
+#   port     = 80
+#   protocol = "TCP"
+#   vpc_id   = aws_vpc.pw-vpc.id
+# }
 
 resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   name     = "pw-nlb-target-group-port-443"
@@ -105,16 +105,16 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   vpc_id   = aws_vpc.pw-vpc.id
 }
 
-resource "aws_lb_listener" "pw-nlb-listener-port-80" {
-  load_balancer_arn = aws_lb.pw-nlb.arn
-  port              = "80"
-  protocol          = "TCP"
+# resource "aws_lb_listener" "pw-nlb-listener-port-80" {
+#   load_balancer_arn = aws_lb.pw-nlb.arn
+#   port              = "80"
+#   protocol          = "TCP"
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-  }
-}
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
+#   }
+# }
 
 resource "aws_lb_listener" "pw-nlb-listener-port-443" {
   load_balancer_arn = aws_lb.pw-nlb.arn
@@ -127,9 +127,9 @@ resource "aws_lb_listener" "pw-nlb-listener-port-443" {
   }
 }
 
-/* Attach the appropriate EC2(s) as the target of the NLB
-
-  Alternatively, attach to an ECS cluster
+/*
+  This block was for attaching the appropriate EC2(s) as the target of the NLB
+  No longer necessary now that I've got ECS running
 */
 # resource "aws_lb_target_group_attachment" "pw-nlb-ec2-attachment-port-80" {
 #   target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
