@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
 [
   {
     "name": "personal-website",
-    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:v1",
+    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:4",
     "cpu": 128,
     "memoryReservation": 128,
     "essential": true,
@@ -111,83 +111,48 @@ EOF
   }
 }
 
-resource "aws_iam_role" "container-instance-ec2-role" {
-  name               = "container-instance-ec2-role"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
+# From here: https://gist.githubusercontent.com/paweldudzinski/c536455fa8f1d74ffc9bce9f1396a6a9/raw/1a8c86e4cd4fd9e5e8008c04d23d21da0a29697e/iam.tf
+data "aws_iam_policy_document" "ecs-agent-policy-document" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
     }
-  ]
-}
-EOF
+  }
 }
 
-resource "aws_iam_policy" "container-instance-ec2-policy" {
-  name  = "container-instance-ec2-policy"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DescribeTags",
-        "ecs:CreateCluster",
-        "ecs:DeregisterContainerInstance",
-        "ecs:DiscoverPollEndpoint",
-        "ecs:Poll",
-        "ecs:RegisterContainerInstance",
-        "ecs:StartTelemetrySession",
-        "ecs:UpdateContainerInstancesState",
-        "ecs:Submit*",
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
+resource "aws_iam_role" "ecs-agent-role" {
+  name               = "ecs-agent-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs-agent-policy-document.json
 }
 
-resource "aws_iam_role_policy_attachment" "container-instance-ec2-policy-attachment" {
-  role       = aws_iam_role.container-instance-ec2-role.name
-  policy_arn = aws_iam_policy.container-instance-ec2-policy.arn
+resource "aws_iam_role_policy_attachment" "ecs-agent-policy-attachment" {
+  role       = aws_iam_role.ecs-agent-role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
-resource "aws_iam_instance_profile" "container-instance-ec2-profile" {
-  name = "container-instance-ec2-profile"
-  path = "/"
-  role = aws_iam_role.container-instance-ec2-role.name
+resource "aws_iam_instance_profile" "ecs-agent-profile" {
+  name = "ecs-agent-profile"
+  # path = "/"
+  role = aws_iam_role.ecs-agent-role.name
 }
 
 resource "aws_launch_configuration" "container-instance-launch-configuration" {
   name_prefix = "ecs-personal-website-"
 
-  iam_instance_profile = aws_iam_instance_profile.container-instance-ec2-profile.name
+  iam_instance_profile = aws_iam_instance_profile.ecs-agent-profile.name
 
   instance_type               = "t3a.nano"
-  image_id                    = data.aws_ami.ubuntu_20-04_LTS_ami.id
+  image_id                    = data.aws_ami.amazon-linux-2.id
   key_name                    = aws_key_pair.aws-ec2-ssh-key-pair.id
   associate_public_ip_address = true  # careful with this
   security_groups             = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]
 
   root_block_device {
     volume_type           = "standard"
-    volume_size           = 10
+    volume_size           = 30  # Autoscaling error said 30GB+ needed to start EC2
     delete_on_termination = true
     encrypted             = true
   }
@@ -230,7 +195,7 @@ resource "aws_ecs_capacity_provider" "personal-website-cap-provider" {
       maximum_scaling_step_size = 10
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
-      target_capacity           = 75
+      target_capacity           = 75  # this is actually the CPU usage
     }
   }
 }
