@@ -15,6 +15,7 @@ resource "aws_security_group" "pw-sg-allow-ssh" {
     "0.0.0.0/0"]
   }
 
+  # ALLOW ALL egress rule
   egress {
     from_port = 0
     to_port   = 0
@@ -44,6 +45,7 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
     "0.0.0.0/0"]
   }
 
+  # ALLOW ALL egress rule
   egress {
     from_port = 0
     to_port   = 0
