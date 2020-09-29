@@ -122,8 +122,8 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   }
 
   health_check {
-    protocol = "HTTPS"
-    port = 443 # Need to try setting this to HTTPS, with no overriden port aka 443
+    protocol = "HTTP"
+    port = 80 # Produces a bunch of error logs if set to HTTPS and 443
   }
 }
 
