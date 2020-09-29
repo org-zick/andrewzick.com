@@ -91,6 +91,7 @@ resource "aws_lb" "pw-nlb" {
   enable_deletion_protection = true
 }
 
+# Note: It takes a little time for the EC2 to get registered in the target group
 resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
   name     = "pw-nlb-target-group-port-80"
   port     = 80
@@ -106,6 +107,7 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
 
   health_check {
     protocol = "HTTP"
+    port = 80
   }
 }
 
@@ -120,7 +122,8 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
   }
 
   health_check {
-    protocol = "HTTP"
+    protocol = "HTTPS"
+    port = 443 # Need to try setting this to HTTPS, with no overriden port aka 443
   }
 }
 
