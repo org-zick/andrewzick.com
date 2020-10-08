@@ -10,7 +10,7 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 - Rework the whole website to run as a container
   - ~~Run Caddy locally in a container~~
   - ~~Setup my website inside this local container~~
-  - Try running the website in ECS or something?
+  - ~~Try running the website in ECS or something?~~
   	- Start up an EC2 that gets traffic via an NLB
   		- ~~Try running the website from a directory on the EC2~~
   		- ~~Needed to (bad security) copy creds onto the EC2 to pull the website docker image~~
@@ -18,17 +18,26 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
   		- ~~Try running Docker on an EC2 and then running the website container on that~~
   		- ~~Needed to `docker run` with ports 80 and 443 explicitly in the CLI call~~
   		- ~~Needed to add `dev.andrewzick.com` to the Caddyfile and a CNAME DNS record to the NLB~~
-  		- Hook up an ASG to the NLB with min and max as 1 EC2, then set up the website on that EC2
-  			- I'm not sure if this step is really necessary?
-		- Try running a container website for dev.andrewzick.com
-			- Publish a dev container to ECR
-			- Hook up the NLB to this ECS cluster
+		- ~~Try running a container website for dev.andrewzick.com~~
+			- ~~Publish a dev container to ECR~~
+      - ~~Spin up ASG with 1 EC2 with special ECS agent on it and then start up the task~~
+			- ~~Hook up the NLB to this ECS cluster~~
   - Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)
+    - Woops a little late on this one, but it's definitely more costly, roughly $25/month vs. $3/month (with RIs)
+  - Write up a blog(?) or something other post about my experiences doing....this
+    - part 1, why?
+    - part 2, the old setup + background
+    - part 3, what was my goal?
+    - part 4, the process TM
+    - part 5, success
+    - part 6, cost analysis (vs. experience doing this)
+    - part 7, "so you want to do the same thing?"
 
 
 ## Future
 - Add pre-commit to this repo
 - Run my website off IPv6
+- Automate building the container and pushing it to ECR, possibly with...tests??
 - Fix the top-level folder organization to have the html pages in a folder, but still work with templating
 - Integrate my CBB bracket and SLP ideas into the website, possible as subdomains
 
