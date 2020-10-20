@@ -14,6 +14,7 @@ In the long-term future if the site ever sees real traffic, it might make sense 
 
 Seems like a good time to note, almost all of the cost is from having an NLB. That's $25 per month right away. The actual compute is pretty cheap at only a few bucks per month since I'm running a `t3a.micro`.
 
+If the NLB ever gets destroyed, you might need to update the DNS, if it gets a new elastic IP.
 
 Useful commands:
 sudo systemctl restart caddy

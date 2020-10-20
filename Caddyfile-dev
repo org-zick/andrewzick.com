@@ -1,3 +1,4 @@
+# This is only used for major site upgrades that benefit from a staging environment
 dev.andrewzick.com {
 	encode gzip
 	file_server

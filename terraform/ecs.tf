@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
 [
   {
     "name": "personal-website",
-    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:4",
+    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:5",
     "cpu": 128,
     "memoryReservation": 128,
     "essential": true,
@@ -230,7 +230,7 @@ resource "aws_ecs_service" "personal-website-service" {
   }
 
   # Optional: Allow external changes without Terraform plan difference
-  # out of annoyance, added "capacity_provider_strategy" here
+  # You can act out of annoyance and add "capacity_provider_strategy" here
   lifecycle {
     ignore_changes = [desired_count, capacity_provider_strategy]
   }
