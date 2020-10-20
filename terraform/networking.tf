@@ -86,9 +86,21 @@ resource "aws_lb" "pw-nlb" {
   name               = "pw-nlb"
   internal           = false
   load_balancer_type = "network"
-  subnets            = [aws_subnet.pw-public-subnet.id]
+
+  subnet_mapping {
+    subnet_id     = aws_subnet.pw-public-subnet.id
+    allocation_id = aws_eip.pw-nlb-eip.id
+  }
 
   enable_deletion_protection = true
+}
+
+# Public IP for the NLB
+resource "aws_eip" "pw-nlb-eip" {
+  vpc      = true
+
+  # Recommended setting by terraform docs
+  depends_on = [aws_internet_gateway.pw-internet-gateway]
 }
 
 # Note: It takes a little time for the EC2 to get registered in the target group

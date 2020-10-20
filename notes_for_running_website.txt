@@ -10,19 +10,9 @@ Locally, I built Caddy from source on Mar 2nd 2020. It was release v2.0.0-beta.1
 
 
 2020-10-19:
-In the long-term future if the site ever sees real traffic, it might make sense to duplicate the AWS ECS structure as a dev environment. Everything from a new NLB onwards down the line.
+In the long-term future if the site ever sees real traffic, it might make sense to duplicate the AWS ECS structure as a dev environment. Everything from a new NLB onwards down the line. But for now, I think it's okay to test the website container locally and then publish it when I think it's ready. Seems like a lot more work to builds a separate pipeline, not to mention a guaranteed extra $25 per month from the second NLB.
 
-
-Running the website locally:
-- Try `docker ps` and if it doesn't work, then probably CMD+SPACE docker to start up the daemon.
-- If any containers are running and you don't remember why, try to remember why. Then kill then.
-- Run `docker build -f Dockerfile --target LOCAL .`
-  - This builds the website container from the `Dockerfile` at `.` on the target `LOCAL`
-  - When it's done, it will print a container ID e.g. `4f662cd7772c`. You need this.
-- Run `docker run -p 80:80 -p 443:443 -p 2019:2019 $YOUR_CONTAINER_ID`.
-  - The `-p` arguments are to tell docker to open those ports on the container. 2019 is the Caddy admin port.
-  - Add `-d` somewhere before the ID if you want the container to run in the background.
-- Hit the website via browser + `localhost`. Manually checking if changes worked is the current process.
+Seems like a good time to note, almost all of the cost is from having an NLB. That's $25 per month right away. The actual compute is pretty cheap at only a few bucks per month since I'm running a `t3a.micro`.
 
 
 Useful commands:

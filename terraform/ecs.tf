@@ -230,7 +230,8 @@ resource "aws_ecs_service" "personal-website-service" {
   }
 
   # Optional: Allow external changes without Terraform plan difference
+  # out of annoyance, added "capacity_provider_strategy" here
   lifecycle {
-    ignore_changes = [desired_count]
+    ignore_changes = [desired_count, capacity_provider_strategy]
   }
 }
