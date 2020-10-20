@@ -9,6 +9,22 @@ I am now tracking this Caddyfile in git, so in the future, copy over the git ver
 Locally, I built Caddy from source on Mar 2nd 2020. It was release v2.0.0-beta.15. This went reasonably well, but then I had trouble getting it built from source on the Ubuntu EC2, probably because the EC2 is old. So I am going to skip upgrading to Caddy 2 for now, and switch to using Caddy 1 for local development (installed via homebrew).
 
 
+2020-10-19:
+In the long-term future if the site ever sees real traffic, it might make sense to duplicate the AWS ECS structure as a dev environment. Everything from a new NLB onwards down the line.
+
+
+Running the website locally:
+- Try `docker ps` and if it doesn't work, then probably CMD+SPACE docker to start up the daemon.
+- If any containers are running and you don't remember why, try to remember why. Then kill then.
+- Run `docker build -f Dockerfile --target LOCAL .`
+  - This builds the website container from the `Dockerfile` at `.` on the target `LOCAL`
+  - When it's done, it will print a container ID e.g. `4f662cd7772c`. You need this.
+- Run `docker run -p 80:80 -p 443:443 -p 2019:2019 $YOUR_CONTAINER_ID`.
+  - The `-p` arguments are to tell docker to open those ports on the container. 2019 is the Caddy admin port.
+  - Add `-d` somewhere before the ID if you want the container to run in the background.
+- Hit the website via browser + `localhost`. Manually checking if changes worked is the current process.
+
+
 Useful commands:
 sudo systemctl restart caddy
 systemctl status caddy | less
