@@ -11,7 +11,7 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
   - ~~Run Caddy locally in a container~~
   - ~~Setup my website inside this local container~~
   - ~~Try running the website in ECS or something?~~
-  	- Start up an EC2 that gets traffic via an NLB
+  	- ~~Start up an EC2 that gets traffic via an NLB~~
   		- ~~Try running the website from a directory on the EC2~~
   		- ~~Needed to (bad security) copy creds onto the EC2 to pull the website docker image~~
   			- ~~ssh in with aws.pem~~
@@ -22,8 +22,8 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 			- ~~Publish a dev container to ECR~~
       - ~~Spin up ASG with 1 EC2 with special ECS agent on it and then start up the task~~
 			- ~~Hook up the NLB to this ECS cluster~~
-  - Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)
-    - Woops a little late on this one, but it's definitely more costly, roughly $25/month vs. $3/month (with RIs)
+  - ~~Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)~~
+    - ~~Woops a little late on this one, but it's definitely more costly, roughly $25/month vs. $3/month (with RIs)~~
   - Write up a blog(?) or something other post about my experiences doing....this
     - part 1, why?
     - part 2, the old setup + background
