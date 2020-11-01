@@ -52,12 +52,15 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 ## Running the website locally:
 - Try `docker ps` and if it doesn't work, then probably CMD+SPACE docker to start up the daemon.
 - If any containers are running and you don't remember why, try to remember why. Then kill then.
-- Run `docker build -f Dockerfile --target LOCAL .`
-  - This builds the website container from the `Dockerfile` at `.` on the target `LOCAL`
-  - When it's done, it will print a container ID e.g. `4f662cd7772c`. You need this.
-- Run `docker run -p 80:80 -p 443:443 -p 2019:2019 $YOUR_CONTAINER_ID`.
-  - The `-p` arguments are to tell docker to open those ports on the container. 2019 is the Caddy admin port.
-  - Add `-d` somewhere before the ID if you want the container to run in the background.
+
+- Run `local-build-and-run-website-container.sh`, which does the following:
+  - Runs `docker build -f Dockerfile --target LOCAL -t local-website .`
+    - This builds the website container from the `Dockerfile` at `.` on the target `LOCAL`
+    - When it's done, it will print a container ID e.g. `4f662cd7772c`. You need this.
+  - Runs `docker run -p 80:80 -p 443:443 -p 2019:2019 local-website`.
+    - The `-p` arguments are to tell docker to open those ports on the container. 2019 is the Caddy admin port.
+    - Add `-d` somewhere before the ID if you want the container to run in the background.
+
 - Hit the website via browser + `localhost`. Manually checking if changes worked is the current process.
 
 
@@ -86,6 +89,9 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 
 - Once terraform succeeds, monitor the ECS console to make sure the task reaches the `RUNNING` state.
   - It may stay in the `PENDING` state for a minute or two.
+  - Another problem is that the old task may still be getting traffic so ECS won't kill it.
+    - In this situation, you may have to get your hands dirty and kill it yourself.
+    - It may take a few minutes for the new task to successfully retry spinning up.
   - If it fails, go investigate the Cloudwatch logs for the task.
 
 
