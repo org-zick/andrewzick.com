@@ -37,6 +37,10 @@ td, th {
 	padding: 8px;
 }
 
+h6 {
+	margin-left: 10px;
+}
+
 .table-title th {
 	font-weight: bold;
 }

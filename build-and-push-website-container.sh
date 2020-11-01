@@ -10,11 +10,12 @@ IMAGE_ID=$(aws ecr describe-images --repository-name personal-website --output t
 let "IMAGE_ID=((IMAGE_ID + 1))"
 
 # Build the container with target PROD, passing in the correct tag number
-docker build -f Dockerfile --target PROD -t 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_ID
+docker build -f Dockerfile --target PROD -t 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_ID .
 
 # Push the container
 docker push 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_ID
 
 # Print out the new imageId for updating the terraform ECS task
 echo $IMAGE_ID
-echo "Update the terraform ECS task with this new imageId"
+echo "Update the terraform ECS task \"personal-website-task-definition\" with this new image tag" $IMAGE_ID
+echo "Then run terraform apply with all the args"
