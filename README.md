@@ -67,10 +67,11 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
 ## Pushing a Docker image to ECR
 - Run the `build-and-push-website-container.sh` script, which is just all the following steps in one place
 
-- Build a new image with `docker build -f Dockerfile --target PROD -t 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_TAG_NUMBER .`
+- Build a new image with `docker build -f Dockerfile --platform linux/amd64 --target PROD -t 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE_TAG_NUMBER .`
     - The ECR repository is called `personal-website` and the tag for the website would be a number like `4`.
     - You can probably look at the ECS terraform task definition to find the correct number.
     - Specify the target as `DEV` or `PROD` to build with the corresponding Caddyfiles.
+    - `--platform linux/amd64` is because my personal machine is now an M1 Mac so it builds arm64 by default.
 
 - Get ECR credentials with `aws ecr get-login-password | docker login --username AWS --password-stdin 153765495495.dkr.ecr.us-east-1.amazonaws.com`. It should print "Login Succeeded".
 
