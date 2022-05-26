@@ -61,7 +61,7 @@ A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Wo
         - The `-p` arguments are to tell docker to open those ports on the container. 2019 is the Caddy admin port.
         - Add `-d` somewhere before the ID if you want the container to run in the background.
 
-- Hit the website via browser + `localhost`. Manually checking if changes worked is the current process.
+- Hit the website via browser at `localhost`. Manually checking if changes worked is the current process.
 
 
 ## Pushing a Docker image to ECR
