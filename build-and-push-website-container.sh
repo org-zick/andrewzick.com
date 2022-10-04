@@ -18,4 +18,4 @@ docker push 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:$IMAGE
 # Print out the new imageId for updating the terraform ECS task
 echo $IMAGE_ID
 echo "Update the terraform ECS task \"personal-website-task-definition\" with this new image tag" $IMAGE_ID
-echo "Then run terraform apply with all the args"
+echo "Then run 'terraform apply -var-file prod.tfvars' inside the terraform/ folder"
