@@ -2,9 +2,9 @@
 
 This is my personal website :tada:
 
-## Installation
+## Infrastructure
 
-A mess tbh. Currently runs on [Caddy](https://github.com/caddyserver/caddy/). Working on cleaning this up and possibly containerizing it.
+A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/caddy/) container on ECS.
 
 ## Todo
 - Rework the whole website to run as a container
