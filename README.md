@@ -7,6 +7,26 @@ This is my personal website :tada:
 A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/caddy/) container on ECS.
 
 ## Todo
+- Write up a blog(?) or something other post about my experiences doing the container conversion?
+    - part 1, why?
+    - part 2, the old setup + background
+    - part 3, what was my goal?
+    - part 4, the process TM
+    - part 5, success
+    - part 6, cost analysis (vs. experience doing this)
+    - part 7, "so you want to do the same thing?"
+
+
+## Future
+- Run my website off IPv6
+- Automate building the container and pushing it to ECR, possibly with...tests??
+- Fix the top-level folder organization to have the html pages in a folder, but still work with templating
+- Integrate my CBB bracket and SLP ideas into the website, possible as subdomains
+
+
+## Done
+- My git commits are not signed [thanks to this presentation](https://youtu.be/JC-xCXcyNXI?t=1550)
+- Add pre-commit to this repo
 - Rework the whole website to run as a container
     - ~~Run Caddy locally in a container~~
     - ~~Setup my website inside this local container~~
@@ -24,25 +44,6 @@ A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/cadd
             - ~~Hook up the NLB to this ECS cluster~~
     - ~~Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)~~
         - ~~Woops a little late on this one, but it's definitely more costly, roughly $25/month vs. $3/month (with RIs)~~
-    - Write up a blog(?) or something other post about my experiences doing....this
-        - part 1, why?
-        - part 2, the old setup + background
-        - part 3, what was my goal?
-        - part 4, the process TM
-        - part 5, success
-        - part 6, cost analysis (vs. experience doing this)
-        - part 7, "so you want to do the same thing?"
-
-
-## Future
-- Add pre-commit to this repo
-- Run my website off IPv6
-- Automate building the container and pushing it to ECR, possibly with...tests??
-- Fix the top-level folder organization to have the html pages in a folder, but still work with templating
-- Integrate my CBB bracket and SLP ideas into the website, possible as subdomains
-
-
-## Done
 - Added a bunch of kooky joke pages
 - Edited my main page summary a billion times
 - Constantly flip flopped on whether or not to have my face on the site
