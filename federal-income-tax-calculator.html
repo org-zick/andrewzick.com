@@ -44,7 +44,14 @@
 
 					// User's chosen magic numbers
 					var yearlyIncomeStr = document.getElementById("totalYearlyIncome").value;
-					var yearlyIncome = yearlyIncomeStr.replace(",","").replace(".",""); // just in case
+					var yearlyIncome = Number(yearlyIncomeStr);
+					document.getElementById("bracketTotal").innerHTML = yearlyIncome.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+
+					// The first $12,550 is the standard deduction in 2021
+					yearlyIncome -= 12550;
+					if (yearlyIncome < 0) {
+						yearlyIncome = 0
+					}
 
 					// Go through each bracket and calculate the tax owed
 					for (var i = 1; i < lengthBrackets; ++i) {
@@ -55,12 +62,12 @@
 						if (yearlyIncome > boundary) {
 							taxedAmount = (boundary - prevBoundary) * (taxBrackets[i] / 100);
 							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = (boundary - prevBoundary).toLocaleString();
-							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toFixed(2);
+							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
 							yearlyIncome -= (boundary - prevBoundary);
 						} else {
 							taxedAmount = yearlyIncome * (taxBrackets[i] / 100);
 							document.getElementById(`bracket${taxBrackets[i]}`).innerHTML = yearlyIncome.toLocaleString();
-							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toFixed(2);
+							document.getElementById(`taxedAmount${taxBrackets[i]}`).innerHTML = taxedAmount.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
 							yearlyIncome = 0;
 						}
 
@@ -70,14 +77,15 @@
 					// Handle top-level tax bracket
 					taxedAmount = yearlyIncome * (taxBrackets[lengthBrackets] / 100);
 					document.getElementById(`bracket${taxBrackets[lengthBrackets]}`).innerHTML = yearlyIncome.toLocaleString();
-					document.getElementById(`taxedAmount${taxBrackets[lengthBrackets]}`).innerHTML = taxedAmount.toFixed(2);
+					document.getElementById(`taxedAmount${taxBrackets[lengthBrackets]}`).innerHTML = taxedAmount.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
 					yearlyIncome = 0;
 					totalTaxedAmount += taxedAmount;
 
 					// Calculate effective tax rate
-					yearlyIncome = yearlyIncomeStr.replace(",","").replace(".","");
+					yearlyIncome = Number(yearlyIncomeStr);
 					var effectiveTaxRate = totalTaxedAmount / yearlyIncome * 100;
 					document.getElementById("effectiveTaxRate").innerHTML = effectiveTaxRate.toFixed(2);
+					document.getElementById("taxedAmountTotal").innerHTML = totalTaxedAmount.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
 
 					return totalTaxedAmount;
 				}
@@ -115,6 +123,9 @@
 								placeholder="No commas or decimals, please" oninput="calcTaxBrackets()" onchange="calcTaxBrackets()">
 						</div>
 						<div class="col-lg-6">
+							<h5>Standard deduction for 2021 is $12,550</h5>
+						</div>
+						<div class="col-lg-6">
 							<h5><b>Effective tax rate: </b><i id="effectiveTaxRate">0</i><i>%</i></h5>
 						</div>
 					</div>
@@ -122,7 +133,7 @@
 					<table>
 						<tr>
 							<th>Tax Rate</th>
-							<th>Amount taxed for each bracket</th>
+							<th>Income taxed in each bracket</th>
 							<th>Tax owed for each bracket</th>
 						</tr>
 						<tr>
@@ -159,6 +170,11 @@
 							<th>37%</th>
 							<th id="bracket37">0</th>
 							<th id="taxedAmount37">0</th>
+						</tr>
+						<tr>
+							<th>Total:</th>
+							<th id="bracketTotal">0</th>
+							<th id="taxedAmountTotal">0</th>
 						</tr>
 					</table>
 				</div>
