@@ -52,7 +52,7 @@ A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/cadd
 
 ## Running the website locally:
 - Try `docker ps` and if it doesn't work, then probably CMD+SPACE docker to start up the daemon.
-- If any containers are running and you don't remember why, try to remember why. Then kill then.
+- If any containers are running and you don't remember why, try to remember why. Then kill them.
 
 - Run `local-build-and-run-website-container.sh`, which does the following:
     - Runs `docker build -f Dockerfile --platform linux/amd64 --target LOCAL -t local-website .`
@@ -89,12 +89,10 @@ A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/cadd
     - Don't forget to review the plan before entering `yes`.
     - Destroying resources can take a few minutes, so you will have to wait and watch to ensure it succeeds.
 
-- Once terraform succeeds, monitor the ECS console to make sure the task reaches the `RUNNING` state.
-    - It may stay in the `PENDING` state for a minute or two.
-    - Another problem is that the old task may still be getting traffic so ECS won't kill it.
-        - In this situation, you may have to get your hands dirty and kill it yourself.
-        - It may take a few minutes for the new task to successfully retry spinning up.
-    - If it fails, go investigate the Cloudwatch logs for the task.
+- Once terraform succeeds, go into the ECS console and kill the old task manually.
+    - After that, monitor the ECS console to make sure the new task reaches the `RUNNING` state.
+    - The new task may stay in the `PENDING` state for a minute or two.
+    - If the new task fails to spin up, go investigate the Cloudwatch logs for the task.
 
 
 ## Running the Docker image on an EC2
