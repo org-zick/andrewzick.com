@@ -3,35 +3,14 @@ resource "aws_key_pair" "aws-ec2-ssh-key-pair" {
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpUslKoi+m+7Vj1ks+vc83KaQkb7XQc2i+OVC7S0ZpyWs0B201p+GbTenRbqjmkY5fGaZ/4XRiwXHwtn17D3wLaf5LtibL0kTKDJLrFEvdof0Q/TMPRaSE62yeY4zrJ1X6iUqEPe6gPql1jHjco0Yjz1iM0suok1IMLV/OlSWiCSA52HMYikvCRuq3P7XPPv/WKbpBZfXHT37z9atwcTjTAKueIRTBthQdMU0Ntetas0h48XXxBEJHxB0niq9cAIvcffTDJbmRoDnLPFySsa/RNLgmYlEwjxqwfzSA+yTwErF1Vl3OUw/0YF7TXcI7u7FQH/8NIeKmnuMLaNm112v5 andrewzick@gmail.com"
 }
 
-# Ubuntu
-data "aws_ami" "ubuntu_20-04_LTS_ami" {
-  most_recent = true
-  owners      = ["099720109477"] # Ubuntu
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
 # Amazon Linux 2
-data "aws_ami" "amazon-linux-2" {
+data "aws_ami" "amazon-linux-2023" {
   most_recent = true
   owners      = ["amazon"] # Amazon
 
   filter {
    name   = "name"
-   values = ["amzn2-ami-ecs-hvm*"]
+   values = ["al2023-ami-*-arm64"]
   }
 
   filter {

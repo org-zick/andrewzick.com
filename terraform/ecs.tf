@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
 [
   {
     "name": "personal-website",
-    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:13",
+    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:14",
     "cpu": 128,
     "memoryReservation": 128,
     "essential": true,
@@ -145,7 +145,7 @@ resource "aws_launch_configuration" "container-instance-launch-configuration" {
   iam_instance_profile = aws_iam_instance_profile.ecs-agent-profile.name
 
   instance_type               = "t3a.nano"
-  image_id                    = data.aws_ami.amazon-linux-2.id
+  image_id                    = data.aws_ami.amazon-linux-2023.id
   key_name                    = aws_key_pair.aws-ec2-ssh-key-pair.id
   associate_public_ip_address = true  # careful with this
   security_groups             = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]
