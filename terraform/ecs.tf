@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_log_group" "personal-website-logs" {
   name              = "personal-website-logs"
-  retention_in_days = 7
+  retention_in_days = 400
 }
 
 resource "aws_ecs_cluster" "personal-website-cluster" {
@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
 [
   {
     "name": "personal-website",
-    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:14",
+    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:15",
     "cpu": 128,
     "memoryReservation": 128,
     "essential": true,
