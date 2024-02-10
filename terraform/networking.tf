@@ -1,6 +1,7 @@
 /* VPC and Security Groups */
 resource "aws_vpc" "pw-vpc" {
   cidr_block = "10.0.0.0/23"
+  # assign_generated_ipv6_cidr_block = true
 }
 
 resource "aws_security_group" "pw-sg-allow-ssh" {
@@ -13,6 +14,7 @@ resource "aws_security_group" "pw-sg-allow-ssh" {
     protocol  = "TCP"
     cidr_blocks = [
     "0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   # ALLOW ALL egress rule
@@ -22,6 +24,7 @@ resource "aws_security_group" "pw-sg-allow-ssh" {
     protocol  = "-1"
     cidr_blocks = [
     "0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 
@@ -35,6 +38,7 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
     protocol  = "TCP"
     cidr_blocks = [
     "0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   ingress {
@@ -43,6 +47,7 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
     protocol  = "TCP"
     cidr_blocks = [
     "0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   # ALLOW ALL egress rule
@@ -52,6 +57,7 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
     protocol  = "-1"
     cidr_blocks = [
     "0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 
@@ -74,6 +80,11 @@ resource "aws_route_table" "pw-route-table" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.pw-internet-gateway.id
   }
+
+  # route {
+  #   ipv6_cidr_block = "::/0"
+  #   gateway_id = "${aws_internet_gateway.pw-internet-gateway.id}"
+  # }
 }
 
 resource "aws_route_table_association" "pw-public-route-table-assoc" {

@@ -173,7 +173,7 @@ resource "aws_launch_template" "container-ec2-template" {
   }
 
   network_interfaces {
-    ipv6_address_count          = 1
+    associate_public_ip_address = true
     security_groups             = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]
   }
 
