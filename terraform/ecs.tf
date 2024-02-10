@@ -36,6 +36,12 @@ resource "aws_ecs_service" "personal-website-service" {
 
   force_new_deployment = true
 
+  capacity_provider_strategy {
+    base              = 1
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider.arn
+    weight            = 100
+  }
+
   load_balancer {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
     container_name   = "personal-website" # as it appears in the container definition
@@ -46,11 +52,6 @@ resource "aws_ecs_service" "personal-website-service" {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
     container_name   = "personal-website" # as it appears in the container definition
     container_port   = 443
-  }
-
-  capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider.arn
-    weight            = 100
   }
 
   ordered_placement_strategy {
@@ -69,7 +70,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
   family                = "personal-website-task"
   task_role_arn         = aws_iam_role.personal-website-task-role.arn
   execution_role_arn    = aws_iam_role.personal-website-task-role.arn
-  container_definitions = file("personal-website-task-definition.json")
+  container_definitions = file("${path.module}/personal-website-task-definition.json")
 
   volume {
     name = "personal-website-caddy-data"
@@ -108,6 +109,7 @@ resource "aws_launch_template" "container-ec2-template" {
   network_interfaces {
     associate_public_ip_address = true
     security_groups             = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]
+    subnet_id                   = aws_subnet.pw-public-subnet.id
   }
 
   tag_specifications {

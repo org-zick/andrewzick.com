@@ -9,6 +9,10 @@ resource "aws_lb" "pw-nlb" {
     allocation_id = aws_eip.pw-nlb-eip.id
   }
 
+  # https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-security-groups.html
+  # If you don't assign a security group to your load balancer,
+  # all client traffic can reach the load balancer listeners and all traffic can leave the load balancer.
+
   enable_deletion_protection = true
 }
 
@@ -22,10 +26,10 @@ resource "aws_eip" "pw-nlb-eip" {
 
 # Note: It takes a little time for the EC2 to get registered in the target group
 resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
-  name     = "pw-nlb-target-group-port-80"
-  port     = 80
-  protocol = "TCP"
-  vpc_id   = aws_vpc.pw-vpc.id
+  name_prefix = "tg80-"
+  port        = 80
+  protocol    = "TCP"
+  vpc_id      = aws_vpc.pw-vpc.id
 
   # https://stackoverflow.com/a/60080801/2521402
   # Add lifecycle to help with changes, but might still need to rename every time
@@ -41,10 +45,10 @@ resource "aws_lb_target_group" "pw-nlb-target-group-port-80" {
 }
 
 resource "aws_lb_target_group" "pw-nlb-target-group-port-443" {
-  name     = "pw-nlb-target-group-port-443"
-  port     = 443
-  protocol = "TCP"
-  vpc_id   = aws_vpc.pw-vpc.id
+  name_prefix = "tg443-"
+  port        = 443
+  protocol    = "TCP"
+  vpc_id      = aws_vpc.pw-vpc.id
 
   lifecycle {
     create_before_destroy = true
