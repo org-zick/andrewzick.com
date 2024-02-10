@@ -186,10 +186,10 @@ resource "aws_launch_template" "container-ec2-template" {
 }
 
 resource "aws_autoscaling_group" "personal-website-asg" {
-  name                 = "personal-website-asg"
-  min_size             = 1
-  max_size             = 1
-  desired_capacity     = 1
+  name                      = "personal-website-asg"
+  min_size                  = 1
+  max_size                  = 1
+  desired_capacity          = 1
   vpc_zone_identifier  = [aws_subnet.pw-public-subnet.id]
 
   launch_template {
