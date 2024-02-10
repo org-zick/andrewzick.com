@@ -197,12 +197,12 @@ resource "aws_autoscaling_group" "personal-website-asg" {
     version = aws_launch_template.container-ec2-template.latest_version
   }
 
-  instance_refresh {
-    strategy = "Rolling"
-    preferences {
-      min_healthy_percentage = 50
-    }
-  }
+  # instance_refresh {
+  #   strategy = "Rolling"
+  #   preferences {
+  #     min_healthy_percentage = 50
+  #   }
+  # }
 
   lifecycle {
     create_before_destroy = true
@@ -216,7 +216,7 @@ resource "aws_ecs_capacity_provider" "personal-website-cap-provider" {
     auto_scaling_group_arn = aws_autoscaling_group.personal-website-asg.arn
 
     managed_scaling {
-      maximum_scaling_step_size = 10
+      maximum_scaling_step_size = 4
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
       # This is actually the CPU usage, don't need it for only 1 instance
@@ -235,13 +235,13 @@ resource "aws_ecs_service" "personal-website-service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
-    container_name   = "personal-website"
+    container_name   = "personal-website" # as it appears in the container definition
     container_port   = 80
   }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-443.arn
-    container_name   = "personal-website"
+    container_name   = "personal-website" # as it appears in the container definition
     container_port   = 443
   }
 
