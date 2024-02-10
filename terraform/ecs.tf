@@ -69,11 +69,15 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
 [
   {
     "name": "personal-website",
-    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:15",
+    "image": "153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:16",
     "cpu": 128,
     "memoryReservation": 128,
     "essential": true,
     "portMappings": [
+      {
+        "containerPort": 22,
+        "hostPort": 22
+      },
       {
         "containerPort": 80,
         "hostPort": 80
@@ -134,51 +138,71 @@ resource "aws_iam_role_policy_attachment" "ecs-agent-policy-attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+resource "aws_iam_role_policy_attachment" "ssm-policy" {
+  role       = aws_iam_role.ecs-agent-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 resource "aws_iam_instance_profile" "ecs-agent-profile" {
   name = "ecs-agent-profile"
   role = aws_iam_role.ecs-agent-role.name
 }
 
-resource "aws_launch_configuration" "container-instance-launch-configuration" {
+resource "aws_launch_template" "container-ec2-template" {
   name_prefix = "ecs-personal-website-"
 
-  iam_instance_profile = aws_iam_instance_profile.ecs-agent-profile.name
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ecs-agent-profile.name
+  }
 
-  instance_type               = "t3a.nano"
+  instance_type               = "t3a.micro"
   image_id                    = data.aws_ami.amazon-linux-2023.id
   key_name                    = aws_key_pair.aws-ec2-ssh-key-pair.id
-  associate_public_ip_address = true  # careful with this
-  security_groups             = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]
 
-  root_block_device {
-    volume_type           = "standard"
-    volume_size           = 30  # Autoscaling error said 30GB+ needed to start EC2
-    delete_on_termination = true
-    encrypted             = true
+  user_data = filebase64("${path.module}/ecs-container-prep.sh")
+
+  block_device_mappings {
+    device_name = "/dev/sdf"
+
+    ebs {
+      volume_type           = "standard"
+      volume_size           = 30  # Autoscaling error said 30GB+ needed to start EC2
+      delete_on_termination = true
+      encrypted             = true
+    }
   }
 
-  user_data = <<EOF
-#!/bin/bash
-# The cluster this agent should check into.
-echo 'ECS_CLUSTER=${local.cluster_name}' >> /etc/ecs/ecs.config
-# Enable ECS task role.
-ECS_ENABLE_TASK_IAM_ROLE=true
-# Disable privileged containers.
-echo 'ECS_DISABLE_PRIVILEGED=true' >> /etc/ecs/ecs.config
-EOF
-
-  lifecycle {
-    create_before_destroy = true
+  network_interfaces {
+    ipv6_address_count          = 1
+    security_groups             = [aws_security_group.pw-sg-allow-ssh.id, aws_security_group.pw-sg-allow-web-traffic.id]
   }
+
+  tag_specifications {
+   resource_type = "instance"
+   tags = {
+     Name = "ecs-instance"
+   }
+ }
 }
 
 resource "aws_autoscaling_group" "personal-website-asg" {
   name                 = "personal-website-asg"
-  launch_configuration = aws_launch_configuration.container-instance-launch-configuration.name
   min_size             = 1
   max_size             = 1
   desired_capacity     = 1
   vpc_zone_identifier  = [aws_subnet.pw-public-subnet.id]
+
+  launch_template {
+    id      = aws_launch_template.container-ec2-template.id
+    version = aws_launch_template.container-ec2-template.latest_version
+  }
+
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+  }
 
   lifecycle {
     create_before_destroy = true
@@ -206,6 +230,8 @@ resource "aws_ecs_service" "personal-website-service" {
   cluster         = aws_ecs_cluster.personal-website-cluster.id
   task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
   desired_count   = 1
+
+  force_new_deployment = true
 
   load_balancer {
     target_group_arn = aws_lb_target_group.pw-nlb-target-group-port-80.arn
