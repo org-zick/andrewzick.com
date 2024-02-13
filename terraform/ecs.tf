@@ -3,20 +3,20 @@ resource "aws_cloudwatch_log_group" "personal-website-logs" {
   retention_in_days = 400
 }
 
-resource "aws_ecs_cluster" "personal-website-cluster" {
-  name = local.cluster_name
-  capacity_providers = [aws_ecs_capacity_provider.personal-website-cap-provider.name]
+resource "aws_ecs_cluster" "personal-website-cluster-feb2024" {
+  name = "personal-website-cluster-feb2024"
+  capacity_providers = [aws_ecs_capacity_provider.personal-website-cap-provider-feb2024.name]
 
   default_capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider.name
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider-feb2024.name
   }
 }
 
-resource "aws_ecs_capacity_provider" "personal-website-cap-provider" {
-  name = "personal-website-cap-provider"
+resource "aws_ecs_capacity_provider" "personal-website-cap-provider-feb2024" {
+  name = "personal-website-cap-provider-feb2024"
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn = aws_autoscaling_group.personal-website-asg.arn
+    auto_scaling_group_arn = aws_autoscaling_group.personal-website-asg-feb2024.arn
 
     managed_scaling {
       maximum_scaling_step_size = 4
@@ -28,17 +28,16 @@ resource "aws_ecs_capacity_provider" "personal-website-cap-provider" {
   }
 }
 
-resource "aws_ecs_service" "personal-website-service" {
-  name            = "personal-website-service"
-  cluster         = aws_ecs_cluster.personal-website-cluster.id
+resource "aws_ecs_service" "personal-website-service-feb2024" {
+  name            = "personal-website-service-feb2024"
+  cluster         = aws_ecs_cluster.personal-website-cluster-feb2024.id
   task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
   desired_count   = 1
 
   force_new_deployment = true
 
   capacity_provider_strategy {
-    base              = 1
-    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider.arn
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider-feb2024.arn
     weight            = 100
   }
 
@@ -73,7 +72,7 @@ resource "aws_ecs_task_definition" "personal-website-task-definition" {
   container_definitions = file("${path.module}/personal-website-task-definition.json")
 
   volume {
-    name = "personal-website-caddy-data"
+    name = "personal-website-data"
 
     docker_volume_configuration {
       scope         = "shared"
@@ -120,11 +119,11 @@ resource "aws_launch_template" "container-ec2-template" {
  }
 }
 
-resource "aws_autoscaling_group" "personal-website-asg" {
-  name                      = "personal-website-asg"
-  min_size                  = 1
+resource "aws_autoscaling_group" "personal-website-asg-feb2024" {
+  name                      = "personal-website-asg-feb2024"
+  min_size                  = 0
   max_size                  = 1
-  desired_capacity          = 1
+  desired_capacity          = 0
   vpc_zone_identifier  = [aws_subnet.pw-public-subnet.id]
 
   launch_template {

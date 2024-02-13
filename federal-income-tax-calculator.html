@@ -37,8 +37,10 @@
 
 				function calcTaxBrackets() {
 					// Constants
+					var standardDeduction = 13850;
+					var yearUpdatedFor = 2023;
 					var taxBrackets = [0, 10, 12, 22, 24, 32, 35, 37];
-					var bracketBoundaries = [0, 9950, 40525, 86375, 164925, 209425, 523600];
+					var bracketBoundaries = [0, 11000, 44725, 95375, 182100, 231250, 578125];
 					var totalTaxedAmount = 0;
 					var lengthBrackets = bracketBoundaries.length;
 
@@ -47,8 +49,7 @@
 					var yearlyIncome = Number(yearlyIncomeStr);
 					document.getElementById("bracketTotal").innerHTML = yearlyIncome.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
 
-					// The first $12,550 is the standard deduction in 2021
-					yearlyIncome -= 12550;
+					yearlyIncome -= standardDeduction;
 					if (yearlyIncome < 0) {
 						yearlyIncome = 0
 					}
@@ -123,7 +124,7 @@
 								placeholder="No commas or decimals, please" oninput="calcTaxBrackets()" onchange="calcTaxBrackets()">
 						</div>
 						<div class="col-lg-6">
-							<h5>Standard deduction for 2021 is $12,550</h5>
+							<h5>Standard deduction for 2023 taxes is $13,850</h5>
 						</div>
 						<div class="col-lg-6">
 							<h5><b>Effective tax rate: </b><i id="effectiveTaxRate">0</i><i>%</i></h5>
@@ -179,7 +180,7 @@
 					</table>
 				</div>
 				<div class="col-lg-3 col-main">
-					<p><a href="https://www.nerdwallet.com/blog/taxes/federal-income-tax-brackets/">2022</a> Federal Income Tax Brackets:</p>
+					<p><a href="https://www.nerdwallet.com/article/taxes/federal-income-tax-brackets">2023</a> Federal Income Tax Brackets:</p>
 					<p><i>Singles Edition</i></p>
 					<table>
 						<tr class="table-title">
@@ -188,31 +189,31 @@
 						</tr>
 						<tr>
 							<th>10%</th>
-							<th>$0 - $9,950</th>
+							<th>$0 - $11,000</th>
 						</tr>
 						<tr>
 							<th>12%</th>
-							<th>$9,951 - $40,525</th>
+							<th>$9,951 - $44,725</th>
 						</tr>
 						<tr>
 							<th>22%</th>
-							<th>$40,526 - $86,375</th>
+							<th>$40,526 - $95,375</th>
 						</tr>
 						<tr>
 							<th>24%</th>
-							<th>$86,376 - $164,925</th>
+							<th>$86,376 - $182,100</th>
 						</tr>
 						<tr>
 							<th>32%</th>
-							<th>$164,926 - $209,425</th>
+							<th>$164,926 - $231,250</th>
 						</tr>
 						<tr>
 							<th>35%</th>
-							<th>$209,426 - $523,600</th>
+							<th>$209,426 - $578,125</th>
 						</tr>
 						<tr>
 							<th>37%</th>
-							<th>$523,601+</th>
+							<th>$578,126+</th>
 						</tr>
 					</table>
 					<br>

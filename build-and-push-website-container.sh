@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Log into ECR
-aws ecr get-login-password | docker login --username AWS --password-stdin 153765495495.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 153765495495.dkr.ecr.us-east-1.amazonaws.com
 
 # Get the most recent (aka highest number) imageId
 IMAGE_ID=$(aws ecr describe-images --repository-name personal-website --output text --query 'sort_by(imageDetails,& imagePushedAt)[*].imageTags[*]' | tr '\t' '\n' | tail -1)

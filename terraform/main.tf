@@ -3,10 +3,6 @@ provider "aws" {
   region  = var.region
 }
 
-locals {
-  cluster_name = "personal-website-cluster"
-}
-
 resource "aws_kms_key" "s3-enc-key" {
   description             = "KMS key for encrypting S3 files in ${var.environment}"
   deletion_window_in_days = 10
