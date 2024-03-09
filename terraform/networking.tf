@@ -58,9 +58,10 @@ resource "aws_security_group" "pw-sg-allow-web-traffic" {
 
 /* 1 public subnet, /26 */
 resource "aws_subnet" "pw-public-subnet" {
-  vpc_id            = aws_vpc.pw-vpc.id
-  cidr_block        = "10.0.0.0/26"
-  availability_zone = "us-east-1a"
+  vpc_id                  = aws_vpc.pw-vpc.id
+  cidr_block              = "10.0.0.0/26"
+  availability_zone       = "us-east-1a"
+  map_public_ip_on_launch = true
 }
 
 /* IGW so that the public subnet is reachable from the internet */

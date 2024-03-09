@@ -3,20 +3,20 @@ resource "aws_cloudwatch_log_group" "personal-website-logs" {
   retention_in_days = 400
 }
 
-resource "aws_ecs_cluster" "personal-website-cluster-feb2024" {
-  name = "personal-website-cluster-feb2024"
-  capacity_providers = [aws_ecs_capacity_provider.personal-website-cap-provider-feb2024.name]
+resource "aws_ecs_cluster" "personal-website-cluster-4" {
+  name = "personal-website-cluster-4"
+  capacity_providers = [aws_ecs_capacity_provider.personal-website-cap-provider-4.name]
 
   default_capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider-feb2024.name
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider-4.name
   }
 }
 
-resource "aws_ecs_capacity_provider" "personal-website-cap-provider-feb2024" {
-  name = "personal-website-cap-provider-feb2024"
+resource "aws_ecs_capacity_provider" "personal-website-cap-provider-4" {
+  name = "personal-website-cap-provider-4"
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn = aws_autoscaling_group.personal-website-asg-feb2024.arn
+    auto_scaling_group_arn = aws_autoscaling_group.personal-website-asg-4.arn
 
     managed_scaling {
       maximum_scaling_step_size = 4
@@ -28,16 +28,16 @@ resource "aws_ecs_capacity_provider" "personal-website-cap-provider-feb2024" {
   }
 }
 
-resource "aws_ecs_service" "personal-website-service-feb2024" {
-  name            = "personal-website-service-feb2024"
-  cluster         = aws_ecs_cluster.personal-website-cluster-feb2024.id
+resource "aws_ecs_service" "personal-website-service-4" {
+  name            = "personal-website-service-4"
+  cluster         = aws_ecs_cluster.personal-website-cluster-4.id
   task_definition = aws_ecs_task_definition.personal-website-task-definition.arn
   desired_count   = 1
 
   force_new_deployment = true
 
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider-feb2024.arn
+    capacity_provider = aws_ecs_capacity_provider.personal-website-cap-provider-4.name
     weight            = 100
   }
 
@@ -119,8 +119,8 @@ resource "aws_launch_template" "container-ec2-template" {
  }
 }
 
-resource "aws_autoscaling_group" "personal-website-asg-feb2024" {
-  name                      = "personal-website-asg-feb2024"
+resource "aws_autoscaling_group" "personal-website-asg-4" {
+  name                      = "personal-website-asg-4"
   min_size                  = 0
   max_size                  = 1
   desired_capacity          = 0
@@ -140,5 +140,11 @@ resource "aws_autoscaling_group" "personal-website-asg-feb2024" {
 
   lifecycle {
     create_before_destroy = true
+  }
+
+  tag {
+    key                 = "AmazonECSManaged"
+    value               = true
+    propagate_at_launch = true
   }
 }
