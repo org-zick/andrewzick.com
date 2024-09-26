@@ -1,4 +1,4 @@
-name: Upload Website
+name: Sync to Website Bucket
 
 on:
   push:
