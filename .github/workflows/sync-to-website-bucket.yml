@@ -1,0 +1,45 @@
+name: Upload Website
+
+on:
+  push:
+    branches:
+    - develop
+
+# Permission can be added at job level or workflow level
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  AssumeRoleAndCallIdentity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: arn:aws:iam::153765495495:role/github-actions-sync-to-website-bucket
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: 'us-east-1'
+      # Hello from AWS: WhoAmI
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: aws-actions/configure-aws-credentials@v1.7.0
+      with:
+        role-to-assume: arn:aws:iam::153765495495:role/github-actions-sync-to-website-bucket
+        role-session-name: GitHub_to_AWS_via_FederatedOIDC
+        aws-region: 'us-east-1'
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete --exclude 'terraform/*' --exclude '.gitignore' --exclude '.github/*' --exclude '.dockerignore'
+      env:
+        AWS_S3_BUCKET: 'andrewzick.com'
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
