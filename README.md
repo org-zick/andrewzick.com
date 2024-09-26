@@ -4,7 +4,7 @@ This is my personal website :tada:
 
 ## Infrastructure
 
-A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/caddy/) container on ECS.
+Currently runs via a [Caddy](https://github.com/caddyserver/caddy/) container on ECS.
 
 ## Todo
 - Write up a blog(?) or something other post about my experiences doing the container conversion?
@@ -23,32 +23,6 @@ A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/cadd
 - Fix the top-level folder organization to have the html pages in a folder, but still work with templating
 - Integrate my CBB bracket and SLP ideas into the website, possible as subdomains
 
-
-## Done
-- My git commits are not signed [thanks to this presentation](https://youtu.be/JC-xCXcyNXI?t=1550)
-- Add pre-commit to this repo
-- Rework the whole website to run as a container
-    - ~~Run Caddy locally in a container~~
-    - ~~Setup my website inside this local container~~
-    - ~~Try running the website in ECS or something?~~
-        - ~~Start up an EC2 that gets traffic via an NLB~~
-            - ~~Try running the website from a directory on the EC2~~
-            - ~~Needed to (bad security) copy creds onto the EC2 to pull the website docker image~~
-                - ~~ssh in with aws.pem~~
-            - ~~Try running Docker on an EC2 and then running the website container on that~~
-            - ~~Needed to `docker run` with ports 80 and 443 explicitly in the CLI call~~
-            - ~~Needed to add `dev.andrewzick.com` to the Caddyfile and a CNAME DNS record to the NLB~~
-        - ~~Try running a container website for dev.andrewzick.com~~
-            - ~~Publish a dev container to ECR~~
-            - ~~Spin up ASG with 1 EC2 with special ECS agent on it and then start up the task~~
-            - ~~Hook up the NLB to this ECS cluster~~
-    - ~~Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)~~
-        - ~~Woops a little late on this one, but it's definitely more costly, roughly $25/month vs. $3/month (with RIs)~~
-- Added a bunch of kooky joke pages
-- Edited my main page summary a billion times
-- Constantly flip flopped on whether or not to have my face on the site
-
-###
 
 ## Running the website locally:
 - Try `docker ps` and if it doesn't work, then probably CMD+SPACE docker to start up the daemon.
@@ -99,3 +73,29 @@ A bit of a mess. Currently runs in a [Caddy](https://github.com/caddyserver/cadd
 - Install Docker and start the daemon
 - Pull the website image with `docker pull 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:my-image-tag`
 - Run the image with `docker run -dt -p 80:80 -p 443:443 -p 2019:2019 -p 8000:8000 153765495495.dkr.ecr.us-east-1.amazonaws.com/personal-website:my-image-tag`
+
+###
+
+## Done
+- My git commits are now signed [thanks to this presentation](https://youtu.be/JC-xCXcyNXI?t=1550)
+- Add pre-commit to this repo
+- Rework the whole website to run as a container
+    - ~~Run Caddy locally in a container~~
+    - ~~Setup my website inside this local container~~
+    - ~~Try running the website in ECS or something?~~
+        - ~~Start up an EC2 that gets traffic via an NLB~~
+            - ~~Try running the website from a directory on the EC2~~
+            - ~~Needed to (bad security) copy creds onto the EC2 to pull the website docker image~~
+                - ~~ssh in with aws.pem~~
+            - ~~Try running Docker on an EC2 and then running the website container on that~~
+            - ~~Needed to `docker run` with ports 80 and 443 explicitly in the CLI call~~
+            - ~~Needed to add `dev.andrewzick.com` to the Caddyfile and a CNAME DNS record to the NLB~~
+        - ~~Try running a container website for dev.andrewzick.com~~
+            - ~~Publish a dev container to ECR~~
+            - ~~Spin up ASG with 1 EC2 with special ECS agent on it and then start up the task~~
+            - ~~Hook up the NLB to this ECS cluster~~
+    - ~~Evaluate if a container is a better way to run my website (cost, ease of deployment, etc.)~~
+        - ~~Woops a little late on this one, but it's definitely more costly, roughly $25/month vs. $3/month (with RIs)~~
+- Added jokes
+- Edited my main page summary a billion times
+- Constantly flip flopped on whether or not to have my face on the site
