@@ -121,17 +121,6 @@ resource "aws_s3_bucket_versioning" "static-website-versioning" {
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "static-website-sse" {
-  bucket = aws_s3_bucket.static-website.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.s3-enc-key.arn
-      sse_algorithm     = "aws:kms"
-    }
-  }
-}
-
 resource "aws_s3_bucket_public_access_block" "site" {
   bucket = aws_s3_bucket.static-website.id
 
@@ -218,4 +207,23 @@ resource "cloudflare_record" "www" {
 
   ttl     = 1
   proxied = true
+}
+
+resource "cloudflare_page_rule" "https" {
+  zone_id = data.cloudflare_zones.domain.zones[0].id
+  target  = "*.${var.site_domain}/*"
+  actions {
+    always_use_https = true
+  }
+}
+
+resource "cloudflare_page_rule" "redirect_to_terraform" {
+  zone_id = data.cloudflare_zones.domain.zones[0].id
+  target  = "${var.site_domain}/learn"
+  actions {
+    forwarding_url {
+      status_code = 302
+      url         = "https://developer.hashicorp.com/terraform"
+    }
+  }
 }
