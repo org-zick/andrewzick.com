@@ -121,7 +121,7 @@ resource "aws_s3_bucket_versioning" "static-website-versioning" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "site" {
+resource "aws_s3_bucket_public_access_block" "static-website" {
   bucket = aws_s3_bucket.static-website.id
 
   block_public_acls       = false
@@ -130,7 +130,7 @@ resource "aws_s3_bucket_public_access_block" "site" {
   restrict_public_buckets = false
 }
 
-resource "aws_s3_bucket_website_configuration" "site" {
+resource "aws_s3_bucket_website_configuration" "static-website" {
   bucket = aws_s3_bucket.static-website.id
 
   index_document {
@@ -142,24 +142,24 @@ resource "aws_s3_bucket_website_configuration" "site" {
   }
 }
 
-resource "aws_s3_bucket_ownership_controls" "site" {
+resource "aws_s3_bucket_ownership_controls" "static-website" {
   bucket = aws_s3_bucket.static-website.id
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
 }
 
-resource "aws_s3_bucket_acl" "site" {
+resource "aws_s3_bucket_acl" "static-website" {
   bucket = aws_s3_bucket.static-website.id
 
   acl = "public-read"
   depends_on = [
-    aws_s3_bucket_ownership_controls.site,
-    aws_s3_bucket_public_access_block.site
+    aws_s3_bucket_ownership_controls.static-website,
+    aws_s3_bucket_public_access_block.static-website
   ]
 }
 
-resource "aws_s3_bucket_policy" "site" {
+resource "aws_s3_bucket_policy" "static-website" {
   bucket = aws_s3_bucket.static-website.id
 
   policy = jsonencode({
@@ -179,7 +179,7 @@ resource "aws_s3_bucket_policy" "site" {
   })
 
   depends_on = [
-    aws_s3_bucket_public_access_block.site
+    aws_s3_bucket_public_access_block.static-website
   ]
 }
 
@@ -192,7 +192,7 @@ data "cloudflare_zones" "domain" {
 resource "cloudflare_record" "site_cname" {
   zone_id = data.cloudflare_zones.domain.zones[0].id
   name    = var.site_domain
-  value   = aws_s3_bucket_website_configuration.site.website_endpoint
+  value   = aws_s3_bucket_website_configuration.static-website.website_endpoint
   type    = "CNAME"
 
   ttl     = 1
