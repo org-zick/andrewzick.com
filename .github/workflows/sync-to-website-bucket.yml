@@ -25,4 +25,4 @@ jobs:
       # Hello from AWS: WhoAmI
       - name: S3 sync
         run: |
-          aws s3 sync . s3://andrewzick.com --no-progress --acl public-read --delete --exclude 'terraform/*' --exclude '.git/' --exclude '.gitignore' --exclude '.github/*' --exclude '.dockerignore'
+          aws s3 sync . s3://andrewzick.com --no-progress --acl public-read --delete --exclude 'terraform/*' --exclude '.git/*' --exclude '.gitignore' --exclude '.github/*' --exclude '.dockerignore'
